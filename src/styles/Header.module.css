@@ -1,0 +1,38 @@
+
+.headerContainer{
+    margin-top: 1.1rem;
+    width: 100vw;
+    display: flex;
+    padding-left: 7%;
+    padding-right: 7%;
+    align-items: center;
+    justify-content:space-between;
+}
+
+.companyName{
+    font-size: 2rem;
+    color: #ef3f5f;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-family: 'Poppins', sans-serif;
+    cursor: pointer;
+}
+
+.logoutButton{
+    min-width: 9rem;
+    padding: 0.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    border-radius: 0.6rem;
+    border: none;
+    cursor: pointer;
+    background-color: #fff;
+    color: #ef3f5f;
+    transition: all 300ms ease-in-out;
+    border: 2px solid #ef3f5f;
+}
+
+.logoutButton:hover{
+    background-color: #ef3f5f;
+    color: #fff;
+}
