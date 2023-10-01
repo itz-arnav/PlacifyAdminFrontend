@@ -1,5 +1,4 @@
-
-.userStatsContainer{
+.userStatsContainer {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
@@ -8,23 +7,30 @@
     justify-content: center;
 }
 
-.userStatsHeading{
-    font-size: 1.8rem;
+.userStatsHeading {
+    font-size: 1.5rem;
     font-weight: 500;
     font-family: 'Poppins', sans-serif;
-    color: #43B97F;
+    color: #fff;
+    background: rgb(233, 76, 137);
+    background: linear-gradient(90deg, rgba(233, 76, 137, 1) 35%, rgba(150, 90, 182, 1) 100%);
+    ;
+    padding: 0.3rem 1rem;
+    border: 1px solid #ef3f5f;
+    border-radius: 0.7rem;
+    box-shadow: 4px 8px 20px -5px rgba(0, 0, 0, 0.2);
 }
 
-.userStatsCardSection{
+.userStatsCardSection {
     display: flex;
     align-items: center;
     justify-content: space-around;
     width: 70%;
 }
 
-.userStatsCard{
-    width: 200px;
-    height: 90px;
+.userStatsCard {
+    width: 230px;
+    height: 95px;
     padding-left: 2rem;
     padding-right: 2rem;
     padding-top: 1.5rem;
@@ -35,32 +41,54 @@
     position: relative;
     transition: all 300ms ease-in-out;
     cursor: pointer;
-    box-shadow: 0px 0px 8px -5px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 8px -5px rgba(0, 0, 0, 0.75);
 }
 
-.userStatsCard:hover{
+.userStatsCard:hover {
     transform: scale(1.03);
-    background-color: #43B97F;
 }
 
-.userCardTitle{
+.userStatsCardSection .userStatsCard:nth-child(1) {
+    background: rgb(134, 95, 193);
+    background: linear-gradient(90deg, rgba(134, 95, 193, 1) 15%, rgba(93, 52, 238, 1) 100%);
+}
+
+/* Second card gradient */
+.userStatsCardSection .userStatsCard:nth-child(2) {
+    background: rgb(69, 196, 243);
+    background: linear-gradient(90deg, rgba(69, 196, 243, 1) 15%, rgba(44, 104, 246, 1) 100%);
+}
+
+/* Third card gradient */
+.userStatsCardSection .userStatsCard:nth-child(3) {
+    background: rgb(66, 204, 188);
+    background: linear-gradient(90deg, rgba(66, 204, 188, 1) 10%, rgba(36, 178, 201, 1) 100%);
+}
+
+/* Fourth card gradient */
+.userStatsCardSection .userStatsCard:nth-child(4) {
+    background: rgb(254, 178, 48);
+    background: linear-gradient(90deg, rgba(254, 178, 48, 1) 10%, rgba(248, 138, 68, 1) 100%);
+}
+
+.userCardTitle {
     position: absolute;
     top: 10%;
     left: 10%;
-    color: #eee;
+    color: #fff;
     font-size: 0.975rem;
     font-weight: 500;
 }
 
-.userCardValue{
+.userCardValue {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -40%);
-    font-size: 1.8rem;
+    font-size: 2rem;
     font-weight: 600;
 }
 
-.active{
-    background-color: #43B97F;
+.active {
+    background-color: #ef3f5f;
 }

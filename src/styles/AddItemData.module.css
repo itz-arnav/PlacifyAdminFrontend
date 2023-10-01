@@ -1,5 +1,5 @@
 .addItemContainer{
-    margin-top: 3.5rem;
+    margin-top: 3rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -88,9 +88,8 @@
   .oneSection{
     width: 100%;
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    gap: 5rem;
+    gap: 2rem;
   }
   
   .submitAddItemButton{
@@ -122,3 +121,92 @@
     gap: 0.5rem;
 }
 
+.itemLabel{
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #888;
+}
+
+.itemInputBox{
+  margin-top: 0.1rem;
+  width: 100%;
+  padding: 0.5rem 0.7rem;
+}
+
+.buttonContainer{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.oneImageSection{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.imageButtonContainer{
+  width: 280px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px dotted #0000002c;
+  border-radius: 10px;
+  color: #777;
+  background-color: #dddddd4f;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.imageButtonContainer:hover{
+  background-color: #dddddd26;
+}
+
+.uploadIconContainer{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.uploadIconImage{
+  font-size: 2rem;
+}
+
+.uploadedImageContainer{
+  width: 280px;
+  height: 80px;
+  border: 2px dotted #43b980a6;
+  border-radius: 10px;
+  color: #777;
+  background-color: #fff;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.8rem;
+}
+
+.uploadedImageInfo{
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.uploadedImageRemove{
+  padding: 0.3rem 1rem;
+  background-color: #ef3f5f;
+  color: #fff;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.3rem;
+  font-size: 1rem;
+  cursor: pointer;
+}

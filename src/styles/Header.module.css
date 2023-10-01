@@ -19,10 +19,14 @@
 }
 
 .logoutButton{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
     min-width: 9rem;
     padding: 0.5rem;
     font-size: 1rem;
-    font-weight: 500;
+    font-weight: 600;
     border-radius: 0.6rem;
     border: none;
     cursor: pointer;
