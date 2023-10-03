@@ -134,7 +134,7 @@ const AddItemData = ({ fetchData }) => {
                 });
                 // Clear all useState variables here
                 setIsModalOpen(false);
-                setSelectedOption({ value: 'jobs', label: 'Jobs' });
+                setSelectedOption({ value: 'job', label: 'Jobs' });
                 setCTC('');
                 setEligibleBatch('');
                 setUploadedImage(null);
