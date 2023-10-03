@@ -20,6 +20,7 @@ const UpdateItemModal = ({ isOpen, onClose, item, fetchData }) => {
     const [startDate, setStartDate] = useState(new Date(item.closingDate) || new Date());
     const [itemName, setItemName] = useState(item ? item.name : '');
     const [itemWebsite, setItemWebsite] = useState(item ? item.website : '');
+    const [companyName, setCompanyName] = useState(item ? item.company : '');
     const fileInputRef = useRef(null);
 
     const options = [
@@ -234,13 +235,13 @@ const UpdateItemModal = ({ isOpen, onClose, item, fetchData }) => {
 
                     <div className={css.oneSection}>
                         <div className={css.oneSectionItem}>
-                            <div className={css.itemLabel}>Item Website</div>
+                            <div className={css.itemLabel}>Company Name</div>
                             <input
                                 type='text'
-                                name='itemWebsite'
+                                name='companyName'
                                 className={css.itemInputBox}
-                                value={itemWebsite}
-                                onChange={(e) => setItemWebsite(e.target.value)} // Added an onChange handler to update the state when the input changes
+                                value={companyName}
+                                onChange={(e) => setCompanyName(e.target.value)} // Added an onChange handler to update the state when the input changes
                             /></div>
                         <div className={css.oneSectionItem}>
                             <div className={css.itemLabel}>Ending Date</div>
@@ -306,7 +307,17 @@ const UpdateItemModal = ({ isOpen, onClose, item, fetchData }) => {
                             </div>
                         )}
                     </div>
-
+                    <div className={css.oneSection}>
+                        <div className={css.oneSectionItem}>
+                            <div className={css.itemLabel}>Item Website</div>
+                            <input
+                                type='text'
+                                className={css.itemInputBox}
+                                value={itemWebsite}
+                                onChange={(e) => setItemWebsite(e.target.value)}
+                            />
+                        </div>
+                    </div>
                     <div className={css.buttonContainer}>
                         <button type="submit" onClick={handleUpdate} className={css.submitAddItemButton}>Update</button>
                     </div>

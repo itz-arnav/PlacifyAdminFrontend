@@ -17,6 +17,7 @@ const AddItemData = ({ fetchData }) => {
     const [selectedOption, setSelectedOption] = useState({ value: 'job', label: 'Jobs' });
     const [ctc, setCTC] = useState('');
     const [eligibleBatch, setEligibleBatch] = useState('');
+    const [companyName, setCompanyName] = useState('');
     const [uploadedImage, setUploadedImage] = useState(null);
     const fileInputRef = useRef(null);
 
@@ -239,8 +240,14 @@ const AddItemData = ({ fetchData }) => {
 
                             <div className={css.oneSection}>
                                 <div className={css.oneSectionItem}>
-                                    <div className={css.itemLabel}>Item Website</div>
-                                    <input type='text' name='itemWebsite' className={css.itemInputBox}></input>
+                                    <div className={css.itemLabel}>Company Name</div>
+                                    <input
+                                        type='text'
+                                        className={css.itemInputBox}
+                                        value={companyName}
+                                        onChange={(e) => setCompanyName(e.target.value)}
+                                    />
+                                    {/* <input type='text' name='itemWebsite' className={css.itemInputBox}></input> */}
                                 </div>
                                 <div className={css.oneSectionItem}>
                                     <div className={css.itemLabel}>Ending Date</div>
@@ -281,7 +288,12 @@ const AddItemData = ({ fetchData }) => {
                                     />
                                 </div>
                             </div>
-
+                            <div className={css.oneSection}>
+                            <div className={css.oneSectionItem}>
+                            <div className={css.itemLabel}>Item Website</div>
+                            <input type='text' name='itemWebsite' className={css.itemInputBox}></input>
+                            </div>
+                            </div>
                             <div className={css.oneImageSection}>
                                 {uploadedImage ? (
                                     <div className={css.uploadedImageContainer}>
