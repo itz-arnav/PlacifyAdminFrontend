@@ -19,7 +19,8 @@ function TableRow({ item, fetchData }) {
     <>
 
       <tr>
-        <td>{item.name} comp {item.company}</td>
+        <td>{item.name}</td>
+        <td>{item.company}</td>
         <td className={css.newTabURL}>
           <a href={`https://${item.website}`} target="_blank" rel="noopener noreferrer">
             {item.website}
@@ -73,6 +74,7 @@ const TableData = ({ data, fetchData }) => {
           <thead>
             <tr>
               <th>Name</th>
+              <th>Company</th>
               <th>Website</th>
               <th>Closing Date</th>
               <th>Type</th>
