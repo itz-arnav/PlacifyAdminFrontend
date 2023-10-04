@@ -44,12 +44,12 @@
 /* Column widths */
 .table td:nth-child(1),
 .table th:nth-child(1) {
-  width: 15%;
+  width: 14%;
 }
 
 .table td:nth-child(2),
 .table th:nth-child(2) {
-  width: 10%;
+  width: 9%;
   /* Adjusted width for company column */
 }
 
@@ -61,7 +61,7 @@
 
 .table td:nth-child(4),
 .table th:nth-child(4) {
-  width: 10%;
+  width: 12%;
 }
 
 .table td:nth-child(5),
