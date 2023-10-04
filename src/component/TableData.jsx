@@ -15,7 +15,6 @@ function TableRow({ item, fetchData }) {
   const openDeleteModal = () => setIsDeleteModalOpen(true);
   const closeDeleteModal = () => setIsDeleteModalOpen(false);
 
-
   return (
     <>
 
@@ -67,7 +66,6 @@ const TableData = ({ data, fetchData }) => {
   function handlePageClick({ selected: selectedPage }) {
     setCurrentPage(selectedPage);
   }
-
   return (
     <>
       <div className={css.tableContainer}>

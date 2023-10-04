@@ -34,6 +34,9 @@ const Home = () => {
     fetchData();
   }, []);
 
+  const token = localStorage.getItem('jwt');
+
+  console.log('Fetching token', token);
   return (
     <>
     <Header />

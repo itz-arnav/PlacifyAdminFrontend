@@ -92,7 +92,8 @@ const UpdateItemModal = ({ isOpen, onClose, item, fetchData }) => {
                 type: itemType,
                 imageIcon: uploadedImage,
                 ctc: ctc,
-                batchEligible: eligibleBatch
+                batchEligible: eligibleBatch,
+                company: companyName
             };
         } else {
             formData = {
@@ -102,7 +103,8 @@ const UpdateItemModal = ({ isOpen, onClose, item, fetchData }) => {
                 type: itemType,
                 imageIcon: uploadedImage,
                 ctc: null,
-                batchEligible: null
+                batchEligible: null,
+                company: companyName
             };
         }
 
