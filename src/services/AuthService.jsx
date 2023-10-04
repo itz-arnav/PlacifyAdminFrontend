@@ -2,7 +2,7 @@ const AuthService = {
     async login(username, password) {
       // Replace the following fake API call with your real API call
       console.log("Sending data, username", username, "password", password)
-      const response = await fetch('https://placify-backend-m4tnx14ua-itz-arnav.vercel.app/api/auth/login', {
+      const response = await fetch('https://placify-backend.vercel.app/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

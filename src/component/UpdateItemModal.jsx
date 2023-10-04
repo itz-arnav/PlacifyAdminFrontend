@@ -109,7 +109,8 @@ const UpdateItemModal = ({ isOpen, onClose, item, fetchData }) => {
         }
 
         try {
-            const response = await fetch(`https://placify-backend-m4tnx14ua-itz-arnav.vercel.app/api/posts/${item._id}`, {
+            console.log(formData);
+            const response = await fetch(`https://placify-backend.vercel.app/api/posts/${item._id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

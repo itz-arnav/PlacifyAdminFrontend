@@ -111,7 +111,7 @@ const AddItemData = ({ fetchData }) => {
         }
 
         try {
-            const response = await fetch('https://placify-backend-m4tnx14ua-itz-arnav.vercel.app/api/posts/', {
+            const response = await fetch('https://placify-backend.vercel.app/api/posts/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -142,6 +142,7 @@ const AddItemData = ({ fetchData }) => {
                 setUploadedImage(null);
                 setStartDate(new Date());
                 setIsModalOpen(false);
+                setCompanyName('');
                 fetchData();
             } else {
                 toast.error(`Error: ${responseData.message}`, {

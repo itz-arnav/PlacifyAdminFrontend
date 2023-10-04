@@ -11,7 +11,7 @@ const Home = () => {
   const fetchData = async () => {
     try {
       const token = localStorage.getItem('jwt');
-      const response = await fetch('https://placify-backend-m4tnx14ua-itz-arnav.vercel.app/api/posts/', {
+      const response = await fetch('https://placify-backend.vercel.app/api/posts/', {
         headers: {
           'Authorization': `Bearer ${token}`
         }

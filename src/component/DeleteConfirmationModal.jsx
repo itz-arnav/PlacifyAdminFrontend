@@ -21,7 +21,7 @@ const DeleteConfirmationModal = ({ isOpen, onClose, item, fetchData }) => {
         }
 
         try {
-            const response = await fetch(`https://placify-backend-m4tnx14ua-itz-arnav.vercel.app/api/posts/${item._id}`, {
+            const response = await fetch(`https://placify-backend.vercel.app/api/posts/${item._id}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',

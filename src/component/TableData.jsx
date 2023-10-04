@@ -4,6 +4,7 @@ import css from "../styles/TableData.module.css";
 import { AiFillEdit, AiFillDelete } from "react-icons/ai";
 import DeleteConfirmationModal from './DeleteConfirmationModal';
 import UpdateItemModal from './UpdateItemModal';
+import moment from 'moment';
 
 function TableRow({ item, fetchData }) {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -14,18 +15,18 @@ function TableRow({ item, fetchData }) {
 
   const openDeleteModal = () => setIsDeleteModalOpen(true);
   const closeDeleteModal = () => setIsDeleteModalOpen(false);
-
+  console.log(item.closingDate)
   return (
     <>
 
       <tr>
-        <td>{item.name}</td>
+        <td>{item.name} comp {item.company}</td>
         <td className={css.newTabURL}>
           <a href={`https://${item.website}`} target="_blank" rel="noopener noreferrer">
             {item.website}
           </a>
         </td>
-        <td>{new Date(item.closingDate).toLocaleDateString()}</td>
+        <td>{moment.utc(item.closingDate).startOf('day').format('MM/DD/YYYY - h:mm A')}</td>
         <td>
           <button className={`${css.typeButton} ${css['type' + item.type]}`}>
             {item.type}
@@ -78,7 +79,7 @@ const TableData = ({ data, fetchData }) => {
               <th>Type</th>
               <th>Image</th>
               <th>CTC</th>
-              <th>Batch Eligible</th>
+              <th>Batch</th>
               <th>Actions</th>
             </tr>
           </thead>

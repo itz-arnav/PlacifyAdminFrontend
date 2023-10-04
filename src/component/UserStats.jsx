@@ -10,7 +10,7 @@ const UserStats = () => {
     });
 
     useEffect(() => {
-        fetch('https://placify-backend-m4tnx14ua-itz-arnav.vercel.app/api/clicks/')
+        fetch('https://placify-backend.vercel.app/api/clicks/')
             .then(response => response.json())
             .then(data => setCounts(data));
     }, []);  
