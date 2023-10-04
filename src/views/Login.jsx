@@ -12,8 +12,6 @@ const Login = () => {
     const navigate = useNavigate();
 
     const handleLogin = () => {
-        console.log("Username: " + username);
-        console.log("Password: " + password);
         login(username, password)
             .then(() => {
                 navigate('/');

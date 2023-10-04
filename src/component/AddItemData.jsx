@@ -258,7 +258,6 @@ const AddItemData = ({ fetchData }) => {
                                         className={css.itemInputBox}
                                         selected={startDate}
                                         onChange={(date) => {
-                                            console.log(date);
                                             setStartDate(date)
                                         }}
                                         minDate={today}

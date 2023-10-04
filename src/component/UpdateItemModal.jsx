@@ -109,7 +109,6 @@ const UpdateItemModal = ({ isOpen, onClose, item, fetchData }) => {
         }
 
         try {
-            console.log(formData);
             const response = await fetch(`https://placify-backend.vercel.app/api/posts/${item._id}`, {
                 method: 'PUT',
                 headers: {
@@ -252,7 +251,6 @@ const UpdateItemModal = ({ isOpen, onClose, item, fetchData }) => {
                                 className={css.itemInputBox}
                                 selected={startDate}
                                 onChange={(date) => {
-                                    console.log(date);
                                     setStartDate(date)
                                 }}
                                 minDate={today}

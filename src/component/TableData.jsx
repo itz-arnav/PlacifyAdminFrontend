@@ -15,7 +15,6 @@ function TableRow({ item, fetchData }) {
 
   const openDeleteModal = () => setIsDeleteModalOpen(true);
   const closeDeleteModal = () => setIsDeleteModalOpen(false);
-  console.log(item.closingDate)
   return (
     <>
 
