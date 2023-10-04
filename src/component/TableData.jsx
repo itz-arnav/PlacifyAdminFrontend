@@ -22,7 +22,7 @@ function TableRow({ item, fetchData }) {
         <td>{item.name}</td>
         <td>{item.company}</td>
         <td className={css.newTabURL}>
-          <a href={`https://${item.website}`} target="_blank" rel="noopener noreferrer">
+          <a href={`${item.website}`} target="_blank" rel="noopener noreferrer">
             {item.website}
           </a>
         </td>
