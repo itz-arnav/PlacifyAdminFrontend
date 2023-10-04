@@ -49,12 +49,14 @@
 
 .table td:nth-child(2),
 .table th:nth-child(2) {
-  width: 10%; /* Adjusted width for company column */
+  width: 10%;
+  /* Adjusted width for company column */
 }
 
 .table td:nth-child(3),
 .table th:nth-child(3) {
-  width: 14%; /* Adjusted width for website column */
+  width: 14%;
+  /* Adjusted width for website column */
 }
 
 .table td:nth-child(4),
@@ -84,7 +86,8 @@
 
 .table td:nth-child(9),
 .table th:nth-child(9) {
-  width: 5%; /* Adjusted width for actions column */
+  width: 5%;
+  /* Adjusted width for actions column */
 }
 
 
@@ -158,19 +161,23 @@
 }
 
 .typejob {
-  background-color: rgba(134, 95, 193, 1);
+  background: rgb(134, 95, 193);
+  background: linear-gradient(90deg, rgba(134, 95, 193, 1) 15%, rgba(93, 52, 238, 1) 100%);
 }
 
 .typehackathon {
-  background-color: rgba(44, 104, 246, 1);
+  background: rgb(69, 196, 243);
+  background: linear-gradient(90deg, rgba(69, 196, 243, 1) 15%, rgba(44, 104, 246, 1) 100%);
 }
 
 .typeinternship {
-  background-color: rgba(36, 178, 201, 1);
+  background: rgb(66, 204, 188);
+  background: linear-gradient(90deg, rgba(66, 204, 188, 1) 10%, rgba(36, 178, 201, 1) 100%);
 }
 
 .typecontest {
-  background-color: rgba(248, 138, 68, 1);
+  background: rgb(254, 178, 48);
+  background: linear-gradient(90deg, rgba(254, 178, 48, 1) 10%, rgba(248, 138, 68, 1) 100%);
 }
 
 /* Other Styles */
