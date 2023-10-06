@@ -131,6 +131,7 @@ const AddItemData = ({ fetchData }) => {
             const responseData = await response.json();
 
             if (response.ok) {
+                console.log("Start Date :", startDate);
                 toast.success('Item added successfully!', {
                     position: toast.POSITION.TOP_CENTER
                 });
@@ -177,8 +178,8 @@ const AddItemData = ({ fetchData }) => {
                 img.onload = () => {
                     const canvas = document.createElement('canvas');
                     const ctx = canvas.getContext('2d');
-                    const MAX_WIDTH = 70;
-                    const MAX_HEIGHT = 60;
+                    const MAX_WIDTH = 52;
+                    const MAX_HEIGHT = 52;
 
                     let width = img.width;
                     let height = img.height;
