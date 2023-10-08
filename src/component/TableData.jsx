@@ -4,7 +4,7 @@ import css from "../styles/TableData.module.css";
 import { AiFillEdit, AiFillDelete } from "react-icons/ai";
 import DeleteConfirmationModal from './DeleteConfirmationModal';
 import UpdateItemModal from './UpdateItemModal';
-import moment from 'moment';
+import moment from 'moment-timezone';
 
 function TableRow({ item, fetchData }) {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -26,7 +26,7 @@ function TableRow({ item, fetchData }) {
             {item.website}
           </a>
         </td>
-        <td>{moment.utc(item.closingDate).startOf('day').format('MM/DD/YYYY - h:mm A')}</td>
+        <td>{moment(item.closingDate).tz('Asia/Kolkata').format('MM/DD/YYYY - h:mm A')}</td>
         <td>
           <button className={`${css.typeButton} ${css['type' + item.type]}`}>
             {item.type}
