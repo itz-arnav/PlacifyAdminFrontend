@@ -70,21 +70,26 @@ const AddItemData = ({ fetchData }) => {
     // Function to format contest data to formData
     const formatContestData = (contests) => {
         let formData = [];
-        // return formData;
         for (let contest of contests) {
+            // Create a Date object from the contest start time (assuming it's in UTC)
+            let startDateUtc = new Date(contest.start);
+    
+            // Calculate the IST date by adding 330 minutes (5 hours 30 minutes) to the UTC date
+            let istDate = new Date(startDateUtc.getTime() + (330 * 60000)); // 330 minutes in milliseconds
+    
             let formItem = {
                 "name": contest.event,
                 "website": contest.href,
-                "closingDate": new Date(contest.start),
+                "closingDate": istDate.toISOString(), // Convert to ISO string if necessary, or adjust the format as needed
                 "type": 'contest',
                 "ctc": null,
                 "batchEligible": null,
                 "company": contest.host,
                 "imageIcon": fetchImage(contest.resource_id),
-            }
-            formData.push(formItem)
+            };
+            formData.push(formItem);
         }
-        return formData
+        return formData;
     };
 
     const fetchAndUploadAllContests = async () => {
