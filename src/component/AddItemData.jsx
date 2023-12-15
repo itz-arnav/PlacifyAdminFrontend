@@ -42,7 +42,7 @@ const AddItemData = ({ fetchData }) => {
         }),
     };
 
-    const [startDate, setStartDate] = useState(new Date());
+    const [startDate, setStartDate] = useState(new Date(new Date().setDate(new Date().getDate() + 3)));
     const today = new Date();
 
     const handleSelectChange = option => {
@@ -231,7 +231,7 @@ const AddItemData = ({ fetchData }) => {
                 setCTC('');
                 setEligibleBatch('');
                 setUploadedImage(null);
-                setStartDate(new Date());
+                setStartDate(new Date(new Date().setDate(new Date().getDate() + 3)));
                 setIsModalOpen(false);
                 setCompanyName('');
                 fetchData();
