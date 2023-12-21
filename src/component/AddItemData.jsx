@@ -73,10 +73,10 @@ const AddItemData = ({ fetchData }) => {
         for (let contest of contests) {
             // Create a Date object from the contest start time (assuming it's in UTC)
             let startDateUtc = new Date(contest.start);
-    
+
             // Calculate the IST date by adding 330 minutes (5 hours 30 minutes) to the UTC date
             let istDate = new Date(startDateUtc.getTime() + (330 * 60000)); // 330 minutes in milliseconds
-    
+
             let formItem = {
                 "name": contest.event,
                 "website": contest.href,
@@ -171,6 +171,7 @@ const AddItemData = ({ fetchData }) => {
 
         let formData;
         if (itemType === 'job' || itemType === 'internship') {
+
             if (!ctc || !eligibleBatch) {
                 toast.error('CTC and Eligible Batch are mandatory for Jobs and Internships.', {
                     position: toast.POSITION.TOP_CENTER
@@ -225,6 +226,30 @@ const AddItemData = ({ fetchData }) => {
                 toast.success('Item added successfully!', {
                     position: toast.POSITION.TOP_CENTER
                 });
+
+                if (itemType === 'job' || itemType === 'internship') {
+                    const token = import.meta.env.VITE_TELEGRAM_TOKEN;
+                    const chatId = '@placify100';
+                    const message = `
+Company: ${companyName}
+Role: ${itemName}
+Expected CTC: ${ctc}
+Batch Eligible: ${eligibleBatch}
+Website: ${itemWebsite}
+
+Check out our Free extension for more opportunities
+https://chromewebstore.google.com/u/2/detail/placify/odjbojcmjnlcanibgnjiicmognlbodbl?hl=en-GB`
+
+                    const apiUrl = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`;
+
+                    try {
+                        const response = await fetch(apiUrl);
+                        console.log("Successfully sent message")
+                    } catch (error) {
+                        console.error('Error sending message:', error);
+                    }
+                }
+
                 // Clear all useState variables here
                 setIsModalOpen(false);
                 setSelectedOption({ value: 'job', label: 'Jobs' });
