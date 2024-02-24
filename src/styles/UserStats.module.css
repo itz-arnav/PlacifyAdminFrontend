@@ -39,7 +39,7 @@
     padding-right: 2rem;
     padding-top: 1.5rem;
     padding-bottom: 1.5rem;
-    background-color: #bbb;
+    background-color: #313131;
     color: #fff;
     border-radius: 1rem;
     position: relative;
@@ -53,8 +53,8 @@
 }
 
 .userStatsCardSection .userStatsCard{
-    background: rgb(134, 95, 193);
-    background: linear-gradient(270deg, #57398B 2%, #31236A 80%);
+    background: #313131;
+    background: linear-gradient(270deg, #444 2%, #313131 80%);
 }
 
 /* Second card gradient

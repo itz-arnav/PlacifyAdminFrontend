@@ -1,14 +1,26 @@
 /* Table Styles */
-.tableContainer {
+.tableWrapperContainer {
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  padding-top: 1.5rem;
-  padding-bottom: 1.5rem;
   background-color: #1E1E1E;
   user-select: none !important;
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+}
+
+.tableContainer{
+  width: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: #313131;
+  border-radius: 1rem;
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
 }
 
 .table {
@@ -18,7 +30,7 @@
 }
 
 .table tr {
-  border-top: 1px solid #ed3e5557;
+  border-top: 1px solid #7777770d;
 }
 
 .table th,
@@ -37,7 +49,6 @@
 }
 
 .table th {
-  background-color: #ec4c69;
   color: #fff;
   font-size: 1.1rem;
   font-weight: 500;
@@ -103,6 +114,7 @@
   list-style: none;
   padding-left: 0;
   color: #fff;
+  gap:0.3rem;
 }
 
 .pagination li {
