@@ -179,29 +179,48 @@
   padding: 7px 10px;
   border-radius: 0.7rem;
   color: #fff;
+  background-color: transparent;
   font-weight: 600;
-  border: none;
+  border: 2px solid;
   cursor: pointer;
+  filter: brightness(0.9);
+  transition: all 0.3s ease-in-out;
 }
 
 .typejob {
-  background: rgb(134, 95, 193);
-  background: linear-gradient(90deg, rgba(134, 95, 193, 1) 15%, rgba(93, 52, 238, 1) 100%);
+  border-color: rgb(134, 95, 193);
+  border-color: linear-gradient(90deg, rgba(134, 95, 193, 1) 15%, rgba(93, 52, 238, 1) 100%);
+}
+
+.typejob:hover{
+  background-color:rgb(134, 95, 193);
 }
 
 .typehackathon {
-  background: rgb(69, 196, 243);
-  background: linear-gradient(90deg, rgba(69, 196, 243, 1) 15%, rgba(44, 104, 246, 1) 100%);
+  border-color: rgb(69, 196, 243);
+  border-color: linear-gradient(90deg, rgba(69, 196, 243, 1) 15%, rgba(44, 104, 246, 1) 100%);
+}
+
+.typehackathon:hover{
+  background-color:rgb(69, 196, 243);
 }
 
 .typeinternship {
-  background: rgb(66, 204, 188);
-  background: linear-gradient(90deg, rgba(66, 204, 188, 1) 10%, rgba(36, 178, 201, 1) 100%);
+  border-color: rgb(66, 204, 188);
+  border-color: linear-gradient(90deg, rgba(66, 204, 188, 1) 10%, rgba(36, 178, 201, 1) 100%);
+}
+
+.typeinternship:hover{
+  background-color:rgb(66, 204, 188);
 }
 
 .typecontest {
-  background: rgb(254, 178, 48);
-  background: linear-gradient(90deg, rgba(254, 178, 48, 1) 10%, rgba(248, 138, 68, 1) 100%);
+  border-color: rgb(254, 178, 48);
+  border-color: linear-gradient(90deg, rgba(254, 178, 48, 1) 10%, rgba(248, 138, 68, 1) 100%);
+}
+
+.typecontest:hover{
+  background-color:rgb(254, 178, 48);
 }
 
 /* Other Styles */

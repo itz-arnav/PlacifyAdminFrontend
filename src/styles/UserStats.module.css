@@ -28,11 +28,13 @@
     display: flex;
     align-items: center;
     justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 0.4rem;
     width: 70%;
 }
 
 .userStatsCard {
-    min-width: 230px;
+    min-width: 8rem;
     width: 20%;
     height: 6.5rem;
     padding-left: 2rem;
