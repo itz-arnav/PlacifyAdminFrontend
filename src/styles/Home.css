@@ -1,6 +1,6 @@
-div.homeContainer{
+.homeContainer{
     background-color: #1E1E1E;
-    height: 130vh !important;
+    min-height: 100vh !important;
 }
 
 ::-webkit-scrollbar-track

@@ -3,7 +3,7 @@ import Header from "../component/Header";
 import UserStats from "../component/UserStats";
 import AddItemData from "../component/AddItemData";
 import TableData from "../component/TableData";
-import "../styles/Home.module.css";
+import "../styles/Home.css";
 
 const Home = () => {
   const [data, setData] = useState([]);

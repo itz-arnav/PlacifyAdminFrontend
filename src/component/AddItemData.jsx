@@ -37,7 +37,7 @@ const AddItemData = ({ fetchData }) => {
         option: (provided, state) => ({
             ...provided,
             color: state.isSelected || state.isFocused ? 'white' : 'black',
-            backgroundColor: state.isSelected ? '#43B97F' : state.isFocused ? '#43B97F' : null,
+            backgroundColor: state.isSelected ? '#642186' : state.isFocused ? '#9145B6' : null,
             cursor: 'pointer',
         }),
     };
