@@ -1,17 +1,19 @@
 
 .headerContainer{
-    margin-top: 1.1rem;
-    width: 100vw;
+    padding-top: 1.1rem;
+    width: 100%;
     display: flex;
     padding-left: 7%;
     padding-right: 7%;
     align-items: center;
     justify-content:space-between;
+    user-select: none;
+    background-color: #1E1E1E;
 }
 
 .companyName{
     font-size: 2rem;
-    color: #ef3f5f;
+    color: #fff;
     font-weight: 600;
     text-transform: uppercase;
     font-family: 'Poppins', sans-serif;
@@ -30,13 +32,13 @@
     border-radius: 0.6rem;
     border: none;
     cursor: pointer;
-    background-color: #fff;
-    color: #ef3f5f;
+    background-color: #1E1E1E;
+    color: #9145B6;
     transition: all 300ms ease-in-out;
-    border: 2px solid #ef3f5f;
+    border: 2px solid #9145B6;
 }
 
 .logoutButton:hover{
-    background-color: #ef3f5f;
+    background-color: #9145B6;
     color: #fff;
 }

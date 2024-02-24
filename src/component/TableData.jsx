@@ -59,7 +59,7 @@ function TableRow({ item, fetchData }) {
 
 const TableData = ({ data, fetchData }) => {
   const [currentPage, setCurrentPage] = useState(0);
-  const PER_PAGE = 4;
+  const PER_PAGE = 5;
   const offset = currentPage * PER_PAGE;
   const currentPageData = data && data.items ? data.items.slice(offset, offset + PER_PAGE) : [];
   const pageCount = Math.ceil((data && data.items ? data.items.length : 0) / PER_PAGE);
@@ -68,7 +68,7 @@ const TableData = ({ data, fetchData }) => {
     setCurrentPage(selectedPage);
   }
   return (
-    <>
+    <div className={css.tableWrapperContainer}>
       <div className={css.tableContainer}>
         <table className={css.table}>
           <thead>
@@ -102,7 +102,7 @@ const TableData = ({ data, fetchData }) => {
           activeClassName={css["pagination__link--active"]}
         />
       </div>
-    </>
+    </div>
   );
 }
 

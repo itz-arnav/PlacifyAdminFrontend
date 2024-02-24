@@ -16,7 +16,7 @@ const Home = () => {
           'Authorization': `Bearer ${token}`
         }
       });
-      
+
       if (!response.ok) {
         throw new Error('Failed to fetch data');
       }
@@ -26,7 +26,7 @@ const Home = () => {
     } catch (error) {
       console.error("Failed to fetch data:", error);
     }
-};
+  };
 
 
   // Fetch data on component mount
@@ -37,12 +37,12 @@ const Home = () => {
   const token = localStorage.getItem('jwt');
 
   return (
-    <>
-    <Header />
-    <UserStats />
-    <AddItemData fetchData={fetchData}/>
-    <TableData data={data} fetchData={fetchData} />
-    </>
+    <div className="homeContainer">
+      <Header />
+      <UserStats />
+      <AddItemData fetchData={fetchData} />
+      <TableData data={data} fetchData={fetchData} />
+    </div>
   )
 }
 

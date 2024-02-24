@@ -5,7 +5,10 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+  background-color: #1E1E1E;
+  user-select: none !important;
 }
 
 .table {
@@ -22,7 +25,7 @@
 .table td {
   padding: 8px 12px;
   text-align: left;
-  color: #777;
+  color: #ccc;
   font-size: 1.2rem;
 }
 
@@ -93,12 +96,13 @@
 
 /* Pagination Styles */
 .pagination {
+  padding-top: 3rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 20px 0;
   list-style: none;
   padding-left: 0;
+  color: #fff;
 }
 
 .pagination li {
@@ -112,14 +116,14 @@
   padding: 5px 10px;
   border-radius: 3px;
   text-decoration: none;
-  color: #333;
+  color: #fff;
   transition: background-color 0.3s;
 }
 
 .pagination li a:hover,
 .pagination .pagination__link--active a,
 .pagination .pagination__link--active a:hover {
-  background-color: #ef3f5f;
+  background-color: #9145B6;
   color: #fff;
 }
 
@@ -134,19 +138,22 @@
 .actionIcon2 {
   background: transparent;
   outline: none;
-  color: #333;
+  color: #fff;
   font-size: 1.8rem;
   border: none;
   cursor: pointer;
+  transition: all 200ms ease-in-out;
 }
 
 .actionIcon2 {
+  color: #ef3f5f;
   margin-left: 0.4rem;
 }
 
 .actionIcon:hover,
 .actionIcon2:hover {
-  color: #ed3e55;
+  scale: 1.03;
+  filter: brightness(0.7);
 }
 
 /* Type Button Styles */

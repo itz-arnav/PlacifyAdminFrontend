@@ -17,7 +17,7 @@ const UserStats = () => {
 
     return (
         <div className={css.userStatsContainer}>
-            <div className={css.userStatsHeading}>User Statistics</div>
+            {/* <div className={css.userStatsHeading}>User Statistics</div> */}
             <div className={css.userStatsCardSection}>
                 <div className={`${css.userStatsCard}`}>
                     <div className={css.userCardTitle}>Today</div>

@@ -1,8 +1,10 @@
 .addItemContainer{
-    margin-top: 3rem;
+    padding-top: 2rem;
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: #1E1E1E;
+    user-select: none !important;
 }
 
 .buttonContainer{
@@ -16,9 +18,9 @@
     min-width: 10rem;
     padding: 0.5rem 1.5rem;
     border-radius: 0.4rem;
-    border: 2px solid #43B97F;
-    background-color: #fff;
-    color: #43B97F;
+    border: 2px solid rgba(11, 2, 16, 0.306);
+    background-color: #9145B6;
+    color: #fff;
     font-size: 1.1rem;
     font-family: 'Poppins', sans-serif;
     cursor: pointer;
@@ -30,18 +32,17 @@
   }
 
   .addItemButton:hover{
-    background-color: #43B97F;
-    border: 2px solid #fff;
-    color: #fff;
+    filter: brightness(0.85);
+    transform: scale(1.02);
   }
 
   .fetchItemButton {
     min-width: 10rem;
     padding: 0.5rem 1.5rem;
     border-radius: 0.4rem;
-    border: 2px solid #fff; /* Opposite of .addItemButton */
-    background-color: #43B97F; /* Opposite of .addItemButton */
-    color: #fff; /* Opposite of .addItemButton */
+    border: 2px solid rgba(11, 2, 16, 0.306);
+    background-color: #9145B6;
+    color: #fff;
     font-size: 1.1rem;
     font-family: 'Poppins', sans-serif;
     cursor: pointer;
@@ -53,9 +54,8 @@
   }
   
   .fetchItemButton:hover {
-    background-color: #fff; /* Opposite of .addItemButton:hover */
-    border: 2px solid #43B97F; /* Opposite of .addItemButton:hover */
-    color: #43B97F; /* Opposite of .addItemButton:hover */
+    filter: brightness(0.85);
+    transform: scale(1.02);
   }
   
   
@@ -69,6 +69,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 0;
   }
   
   .modalContent {
