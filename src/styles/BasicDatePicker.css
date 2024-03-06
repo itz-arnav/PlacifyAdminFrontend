@@ -1,8 +1,8 @@
 
   
   .react-datepicker__header {
-    background-color: #ef3f5f;
-    border-bottom: 1px solid #b82c4e;
+    background-color: #9145B6;
+    border-bottom: 1px solid #632284;
     color: #ffffff;
   }
   
@@ -22,7 +22,7 @@
   
   .react-datepicker__day--selected,
   .react-datepicker__day--selected:hover {
-    background-color: #ef3f5f;
+    background-color: #9044b6;
     color: #ffffff;
   }
   
@@ -30,7 +30,7 @@
   .react-datepicker__day--in-selecting-range, 
   .react-datepicker__day--in-range:hover, 
   .react-datepicker__day--in-selecting-range:hover {
-    background-color: #b82c4e;
+    background-color: #3f1a52;
   }
   
   .react-datepicker__day--disabled {
@@ -53,11 +53,11 @@
   }
   
   .react-datepicker__time-list-item--selected {
-    background-color: #ef3f5f;
+    background-color: #9145B6;
   }
   
   .react-datepicker__time-list {
-    background-color: #b82c4e;
+    background-color: #622a80;
   }
   
   .react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box {
@@ -70,8 +70,8 @@
   
   .react-datepicker-popper[data-placement^="bottom"] .react-datepicker__triangle,
   .react-datepicker-popper[data-placement^="top"] .react-datepicker__triangle {
-    border-bottom-color: #ef3f5f !important;
-    border-top-color: #ef3f5f !important;
+    border-bottom-color: #541773 !important;
+    border-top-color: #401256 !important;
   }
   
   .react-datepicker__time-list::-webkit-scrollbar {
@@ -89,12 +89,12 @@
   
   /* Adjusting hover style for TIME list items */
   .react-datepicker__time-list-item:hover {
-    background-color: #f56f7f !important; 
+    background-color: #431958 !important; 
     color: #ffffff !important;
   }
   
   .react-datepicker__time-list-item--selected {
-    background-color: #ef3f5f !important;
+    background-color: #9145B6 !important;
     color: #ffffff !important;
   }
   
@@ -105,5 +105,5 @@
   
   .myDatepicker .react-datepicker__input-container input {
     text-align: center !important;
-    color: #ef3f5f !important;
+    color: #9145B6 !important;
   }

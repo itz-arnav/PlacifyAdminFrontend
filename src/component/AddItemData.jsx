@@ -276,9 +276,7 @@ https://chromewebstore.google.com/u/2/detail/placify/odjbojcmjnlcanibgnjiicmognl
         const file = event.target.files[0];
 
         if (file) {
-            // Check for file size
             if (file.size > 500 * 1024) { // 500kb
-                // Send toast error
                 toast.error("File size is larger than 500kb.", {
                     position: toast.POSITION.TOP_CENTER
                 });
@@ -383,7 +381,7 @@ https://chromewebstore.google.com/u/2/detail/placify/odjbojcmjnlcanibgnjiicmognl
                                         minDate={today}
                                         showTimeSelect
                                         dateFormat="Pp"
-                                        customInput={<input style={{ textAlign: 'center', color: '#ef3f5f', fontWeight: "bold" }} />}
+                                        customInput={<input style={{ textAlign: 'center', color: '#9145B6', fontWeight: "bold" }} />}
                                     />
                                 </div>
                             </div>

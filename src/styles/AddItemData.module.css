@@ -171,6 +171,11 @@
   padding: 0.5rem 0.7rem;
 }
 
+.itemInputBox:disabled{
+  user-select: none;
+  background-color: #787878;
+}
+
 .buttonContainer{
   width: 100%;
   display: flex;
@@ -238,7 +243,7 @@
 
 .uploadedImageRemove{
   padding: 0.3rem 1rem;
-  background-color: #ef3f5f;
+  background-color: #9145B6;
   color: #fff;
   font-weight: 500;
   display: flex;

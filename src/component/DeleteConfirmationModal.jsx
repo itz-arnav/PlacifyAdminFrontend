@@ -58,7 +58,7 @@ const DeleteConfirmationModal = ({ isOpen, onClose, item, fetchData }) => {
                     <button className={css.closeButton} onClick={onClose}><FaTimes /></button>
                     <p className={css.deleteHeading}>Are you sure you want to delete this item?</p>
                     <div className={css.itemContent}>
-                        <img src={item.imageIcon} alt={item.name} width="50" height="50" />
+                        {/* <img src={item.imageIcon} alt={item.name} width="50" height="50" /> */}
                         <p><strong>Name:</strong> {item.name}</p>
                         <p><strong>Website:</strong> <a href={`https://${item.website}`} target="_blank" rel="noopener noreferrer">{item.website}</a></p>
                         <p><strong>Closing Date:</strong> {new Date(item.closingDate).toLocaleDateString()}</p>
