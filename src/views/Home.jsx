@@ -40,7 +40,7 @@ const Home = () => {
     <div className="homeContainer">
       <Header />
       <UserStats />
-      <AddItemData fetchData={fetchData} />
+      <AddItemData data={data} fetchData={fetchData} />
       <TableData data={data} fetchData={fetchData} />
     </div>
   )

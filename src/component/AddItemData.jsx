@@ -10,7 +10,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 
-const AddItemData = ({ fetchData }) => {
+const AddItemData = ({ data, fetchData }) => {
     const navigate = useNavigate();
     const formRef = useRef(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -67,7 +67,7 @@ const AddItemData = ({ fetchData }) => {
         }
     }
 
-    // Function to format contest data to formData
+
     const formatContestData = (contests) => {
         let formData = [];
         for (let contest of contests) {
@@ -92,7 +92,9 @@ const AddItemData = ({ fetchData }) => {
         return formData;
     };
 
+    const [isFetchingContest, setIsFetchingContest] = useState(false);
     const fetchAndUploadAllContests = async () => {
+        setIsFetchingContest(true);
         try {
             const response = await fetch('https://placify-backend.vercel.app/api/posts/contests', {
                 method: 'GET',
@@ -101,7 +103,7 @@ const AddItemData = ({ fetchData }) => {
                 }
             });
             if (!response.ok) {
-
+                setIsFetchingContest(false);
                 throw new Error('Network response was not ok');
             }
             const data = await response.json();
@@ -124,6 +126,7 @@ const AddItemData = ({ fetchData }) => {
                         position: toast.POSITION.TOP_CENTER
                     });
                     navigate('/login');
+                    setIsFetchingContest(false);
                     return;
                 }
 
@@ -142,17 +145,20 @@ const AddItemData = ({ fetchData }) => {
         } catch (error) {
             console.error('Fetch error:', error);
         }
+        setIsFetchingContest(false);
     };
 
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const handleSubmit = async (event) => {
         event.preventDefault();
-
+        setIsSubmitting(true);
         const token = localStorage.getItem('jwt');
         if (!token) {
             toast.error('Please authenticate.', {
                 position: toast.POSITION.TOP_CENTER
             });
             navigate('/login');
+            setIsSubmitting(false);
             return;
         }
 
@@ -166,6 +172,7 @@ const AddItemData = ({ fetchData }) => {
             toast.error('Please fill all mandatory fields.', {
                 position: toast.POSITION.TOP_CENTER
             });
+            setIsSubmitting(false);
             return;
         }
 
@@ -176,6 +183,7 @@ const AddItemData = ({ fetchData }) => {
                 toast.error('CTC and Eligible Batch are mandatory for Jobs and Internships.', {
                     position: toast.POSITION.TOP_CENTER
                 });
+                setIsSubmitting(false);
                 return;
             }
             formData = {
@@ -202,7 +210,6 @@ const AddItemData = ({ fetchData }) => {
         }
 
         try {
-            // https://placify-backend.vercel.app/api/posts/
             const response = await fetch('https://placify-backend.vercel.app/api/posts/', {
                 method: 'POST',
                 headers: {
@@ -217,6 +224,7 @@ const AddItemData = ({ fetchData }) => {
                     position: toast.POSITION.TOP_CENTER
                 });
                 navigate('/login');
+                setIsSubmitting(false);
                 return;
             }
 
@@ -260,16 +268,20 @@ https://chromewebstore.google.com/u/2/detail/placify/odjbojcmjnlcanibgnjiicmognl
                 setIsModalOpen(false);
                 setCompanyName('');
                 fetchData();
+                setIsSubmitting(false);
             } else {
                 toast.error(`Error: ${responseData.message}`, {
                     position: toast.POSITION.TOP_CENTER
                 });
+                setIsSubmitting(false);
             }
         } catch (error) {
             toast.error(`Error: ${error.message}`, {
                 position: toast.POSITION.TOP_CENTER
             });
+            setIsSubmitting(false);
         }
+        setIsSubmitting(false);
     };
 
     const handleImageChange = (event) => {
@@ -327,12 +339,38 @@ https://chromewebstore.google.com/u/2/detail/placify/odjbojcmjnlcanibgnjiicmognl
         fileInputRef.current.click();
     }
 
+    function handleWebsiteChange(event) {
+        const currentWebsite = event.target.value;
+        let isWebsiteFound = false;
+        data.items.forEach(item => {
+            if (item.website === currentWebsite) {
+                isWebsiteFound = true;
+            }
+        });
+
+        const inputBox = event.target;
+        if (isWebsiteFound) {
+            inputBox.style.border = '2px solid red';
+            inputBox.style.outline = '2px solid red';
+        } else {
+            inputBox.style.border = '';
+            inputBox.style.outline = '';
+        }
+    }
+
     return (
         <div className={css.addItemContainer}>
 
             <div className={css.buttonContainer}>
                 <button className={css.addItemButton} onClick={() => setIsModalOpen(true)}><FaPlus /> Add Item</button>
-                <button className={css.fetchItemButton} onClick={() => fetchAndUploadAllContests()}>Fetch Contests</button>
+                <button
+                    className={css.fetchItemButton}
+                    onClick={fetchAndUploadAllContests}
+                    disabled={isFetchingContest}
+                >
+                    {isFetchingContest ? 'Fetching...' : 'Fetch Contests'}
+                    {isFetchingContest && <span className={css.spinner}></span>}
+                </button>
             </div>
 
             {isModalOpen && (
@@ -411,7 +449,7 @@ https://chromewebstore.google.com/u/2/detail/placify/odjbojcmjnlcanibgnjiicmognl
                             <div className={css.oneSection}>
                                 <div className={css.oneSectionItem}>
                                     <div className={css.itemLabel}>Item Website</div>
-                                    <input type='text' name='itemWebsite' className={css.itemInputBox}></input>
+                                    <input type='text' name='itemWebsite' className={css.itemInputBox} onChange={handleWebsiteChange}></input>
                                 </div>
                             </div>
                             <div className={css.oneImageSection}>
@@ -440,7 +478,15 @@ https://chromewebstore.google.com/u/2/detail/placify/odjbojcmjnlcanibgnjiicmognl
                             </div>
 
                             <div className={css.buttonContainer}>
-                                <button type="submit" onClick={handleSubmit} className={css.submitAddItemButton}>Submit</button>
+                                <button
+                                    type="submit"
+                                    onClick={handleSubmit}
+                                    className={css.submitAddItemButton}
+                                    disabled={isSubmitting}
+                                >
+                                    {isSubmitting ? 'Submitting...' : 'Submit'}
+                                    {isSubmitting && <span className={css.spinner}></span>}
+                                </button>
                             </div>
 
                         </form>
