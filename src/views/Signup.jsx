@@ -2,15 +2,16 @@ import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { FaEye, FaEyeSlash } from 'react-icons/fa';  // Import icons
+import { FaEye, FaEyeSlash } from 'react-icons/fa'; // Import icons from react-icons
 import css from "../styles/Login.module.css";
 import FireworksComponent from "../component/FireworksComponent";
 
-const Login = () => {
+const Signup = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
+    // New state to toggle password visibility
+    const [showPassword, setShowPassword] = useState(false);
 
     const { login } = useAuth();
     const navigate = useNavigate();
@@ -25,21 +26,21 @@ const Login = () => {
         event.preventDefault();
 
         if (isFormValid()) {
-            setIsLoading(true); // Disable the button until login completes
+            setIsLoading(true);
             try {
                 await login(username, password);
                 navigate('/');
             } catch (error) {
                 toast.error("Login failed. Please check your credentials.");
             } finally {
-                setIsLoading(false); // Re-enable the button regardless of outcome
+                setIsLoading(false);
             }
         } else {
             toast.warn("Please enter both username and password.");
         }
     };
 
-    // Toggle the password visibility
+    // Toggle the state to show or mask password
     const togglePasswordVisibility = () => {
         setShowPassword(prevState => !prevState);
     };
@@ -65,11 +66,13 @@ const Login = () => {
                     <span className={css.companyName}>Placify</span>
                 </div>
                 <div className={css.signInHeaderSection}>
-                    <h3 className={css.signInHeading}>Sign in to Placify</h3>
-                    <span className={css.signInDescription}>Welcome back! Please sign in to continue.</span>
+                    <h3 className={css.signInHeading}>Create your account</h3>
+                    <span className={css.signInDescription}>
+                        Welcome! Please fill in the details to get started.
+                    </span>
                 </div>
 
-                {/* Login Form */}
+                {/* Signup Form */}
                 <form className={css.formContainer} onSubmit={handleSubmit} noValidate>
                     <div className={css.inputSection}>
                         <label htmlFor="username" className={css.inputLabel}>Username</label>
@@ -91,9 +94,8 @@ const Login = () => {
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             placeholder="Enter your password"
-                            style={{ paddingRight: '2.5rem' }} // Extra space for the icon
+                            style={{ paddingRight: '2.5rem' }}
                         />
-                        {/* Password toggle icon */}
                         <div
                             onClick={togglePasswordVisibility}
                             style={{
@@ -112,19 +114,19 @@ const Login = () => {
                     <button
                         type="submit"
                         className={css.submitButton}
-                        disabled={isLoading} // Disabled while loading
+                        disabled={isLoading}
                     >
                         {isLoading ? "Logging in..." : "Login"}
                     </button>
                 </form>
 
                 <footer className={css.footerSection}>
-                    <span>Don’t have an account? </span>
-                    <a className={css.signupLink} onClick={() => navigate('/signup')}>Sign up</a>
+                    <span>Already have an account? </span>
+                    <a className={css.signupLink} onClick={() => navigate('/login')}>Sign in</a>
                 </footer>
             </div>
         </div>
     );
 };
 
-export default Login;
+export default Signup;

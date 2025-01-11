@@ -123,7 +123,6 @@ const AddItemData = ({ data, fetchData }) => {
 
                 if (!response.ok && response.status === 401) {
                     toast.error('Unauthorized. Please login again.', {
-                        position: toast.POSITION.TOP_CENTER
                     });
                     navigate('/login');
                     setIsFetchingContest(false);
@@ -134,7 +133,6 @@ const AddItemData = ({ data, fetchData }) => {
 
                 if (response.ok) {
                     toast.success('Items added successfully!', {
-                        position: toast.POSITION.TOP_CENTER
                     });
                     fetchData();
 
@@ -155,7 +153,6 @@ const AddItemData = ({ data, fetchData }) => {
         const token = localStorage.getItem('jwt');
         if (!token) {
             toast.error('Please authenticate.', {
-                position: toast.POSITION.TOP_CENTER
             });
             navigate('/login');
             setIsSubmitting(false);
@@ -170,7 +167,6 @@ const AddItemData = ({ data, fetchData }) => {
 
         if (!itemName || !itemWebsite || !uploadedImage) {
             toast.error('Please fill all mandatory fields.', {
-                position: toast.POSITION.TOP_CENTER
             });
             setIsSubmitting(false);
             return;
