@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { FaEye, FaEyeSlash } from 'react-icons/fa';  // Import icons
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import css from "../styles/Login.module.css";
 import FireworksComponent from "../component/FireworksComponent";
 
@@ -10,45 +10,47 @@ const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
+    const [showPassword, setShowPassword] = useState(false);
 
     const { login } = useAuth();
     const navigate = useNavigate();
+    const location = useLocation();
 
-    // Validates that both username and password are provided
-    const isFormValid = () => {
-        return username.trim() !== '' && password.trim() !== '';
-    };
+    // Prefill from navigation state if available
+    useEffect(() => {
+        if (location.state) {
+            if (location.state.username) setUsername(location.state.username);
+            if (location.state.password) setPassword(location.state.password);
+        }
+    }, [location]);
 
-    // Form submission handler
+    const isFormValid = () => username.trim() && password.trim();
+
     const handleSubmit = async (event) => {
         event.preventDefault();
-
-        if (isFormValid()) {
-            setIsLoading(true); // Disable the button until login completes
-            try {
-                await login(username, password);
-                navigate('/');
-            } catch (error) {
-                toast.error("Login failed. Please check your credentials.");
-            } finally {
-                setIsLoading(false); // Re-enable the button regardless of outcome
-            }
-        } else {
+        if (!isFormValid()) {
             toast.warn("Please enter both username and password.");
+            return;
+        }
+        setIsLoading(true);
+        try {
+            await login(username, password);
+            navigate('/');
+        } catch (error) {
+            toast.error("Login failed. Please check your credentials.");
+        } finally {
+            setIsLoading(false);
         }
     };
 
-    // Toggle the password visibility
     const togglePasswordVisibility = () => {
-        setShowPassword(prevState => !prevState);
+        setShowPassword(prev => !prev);
     };
 
     return (
         <div className={css.loginContainer}>
             <FireworksComponent />
 
-            {/* Background glass elements */}
             <div className={`${css.glass} ${css.item1}`}></div>
             <div className={`${css.glass} ${css.item2}`}></div>
             <div className={`${css.glass} ${css.item3}`}></div>
@@ -69,17 +71,16 @@ const Login = () => {
                     <span className={css.signInDescription}>Welcome back! Please sign in to continue.</span>
                 </div>
 
-                {/* Login Form */}
                 <form className={css.formContainer} onSubmit={handleSubmit} noValidate>
                     <div className={css.inputSection}>
-                        <label htmlFor="username" className={css.inputLabel}>Username</label>
+                        <label htmlFor="username" className={css.inputLabel}>Username or Email</label>
                         <input
                             id="username"
                             type="text"
                             className={css.input}
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
-                            placeholder="Enter your username"
+                            placeholder="Enter your username/email"
                         />
                     </div>
                     <div className={css.inputSection} style={{ position: 'relative' }}>
@@ -91,9 +92,8 @@ const Login = () => {
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             placeholder="Enter your password"
-                            style={{ paddingRight: '2.5rem' }} // Extra space for the icon
+                            style={{ paddingRight: '2.5rem' }}
                         />
-                        {/* Password toggle icon */}
                         <div
                             onClick={togglePasswordVisibility}
                             style={{
@@ -109,18 +109,16 @@ const Login = () => {
                             {showPassword ? <FaEyeSlash size={18} /> : <FaEye size={18} />}
                         </div>
                     </div>
-                    <button
-                        type="submit"
-                        className={css.submitButton}
-                        disabled={isLoading} // Disabled while loading
-                    >
+                    <button type="submit" className={css.submitButton} disabled={isLoading}>
                         {isLoading ? "Logging in..." : "Login"}
                     </button>
                 </form>
 
                 <footer className={css.footerSection}>
                     <span>Don’t have an account? </span>
-                    <a className={css.signupLink} onClick={() => navigate('/signup')}>Sign up</a>
+                    <a className={css.signupLink} onClick={() => navigate('/signup')}>
+                        Sign up
+                    </a>
                 </footer>
             </div>
         </div>
