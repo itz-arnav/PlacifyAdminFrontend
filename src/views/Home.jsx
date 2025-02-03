@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import MainPage from "../component/MainPage/MainPage"
 import Header from "../component/Header";
 import UserStats from "../component/UserStats";
 import AddItemData from "../component/AddItemData";
@@ -28,20 +29,17 @@ const Home = () => {
     }
   };
 
-
-  // Fetch data on component mount
   useEffect(() => {
     fetchData();
   }, []);
 
-  const token = localStorage.getItem('jwt');
-
   return (
     <div className="homeContainer">
-      <Header />
-      <UserStats />
-      <AddItemData data={data} fetchData={fetchData} />
-      <TableData data={data} fetchData={fetchData} />
+      <MainPage></MainPage>
+      {/* <Header /> */}
+      {/* <UserStats /> */}
+      {/* <AddItemData data={data} fetchData={fetchData} /> */}
+      {/* <TableData data={data} fetchData={fetchData} /> */}
     </div>
   )
 }

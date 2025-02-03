@@ -1,24 +1,23 @@
-.homeContainer{
-    background-color: #1E1E1E;
-    min-height: 100vh !important;
+.homeContainer {
+  background-color: #111313;
+  min-height: 100vh !important;
+  height: 100vh;
+  width: 100vw;
 }
 
-::-webkit-scrollbar-track
-{
+::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.913);
   border-radius: 10px;
   background-color: #777;
 }
 
-::-webkit-scrollbar
-{
+::-webkit-scrollbar {
   width: 9px;
   background-color: #000;
 }
 
-::-webkit-scrollbar-thumb
-{
+::-webkit-scrollbar-thumb {
   border-radius: 4px;
-  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
   background-color: #333;
 }

@@ -1,6 +1,6 @@
 const AuthService = {
   async login(username, password) {
-    const response = await fetch('http://localhost:7777/api/auth/login', {
+    const response = await fetch('https://placify-backend.vercel.app/api/auth/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, password }),
@@ -15,7 +15,7 @@ const AuthService = {
   },
 
   async register(username, email, password) {
-    const response = await fetch('http://localhost:7777/api/auth/register', {
+    const response = await fetch('https://placify-backend.vercel.app/api/auth/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, email, password }),
@@ -29,7 +29,7 @@ const AuthService = {
   },
 
   async verifyToken(token) {
-    const response = await fetch('http://localhost:7777/api/auth/verify', {
+    const response = await fetch('https://placify-backend.vercel.app/api/auth/verify', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

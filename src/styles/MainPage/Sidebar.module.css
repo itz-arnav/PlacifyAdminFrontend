@@ -1,0 +1,114 @@
+.sidebarContainer {
+    width: 260px;
+    height: 100%;
+    background-color: #1b1b1b;
+    border-right: 1px solid #ffffff09;
+    padding: 1.2rem 0.5rem;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    user-select: none;
+}
+
+.sidebarContainer.closed {
+    width: 70px;
+}
+
+.sidebarHeader {
+    width: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.closed .sidebarHeader {
+    justify-content: center;
+}
+
+.logoSection {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.companyLogo,
+.companyName {
+    margin: 0;
+    padding: 0;
+}
+
+.companyLogo {
+    width: 24px;
+    height: 24px;
+}
+
+.companyName {
+    color: #fff;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+}
+
+.sidebarIcon {
+    font-size: 24px;
+    color: #bbb;
+    cursor: pointer;
+    transition: all 300ms ease-in-out;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sidebarIcon:hover {
+    color: #fff;
+}
+
+.sidebarTreeList {
+    margin-top: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.sidebarTreeItem {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    border-radius: 0.5rem;
+    color: #fff;
+    font-size: 0.95rem;
+    padding: 0.5rem 1rem;
+    opacity: 0.85;
+    gap: 0.7rem;
+    transition: all 300ms ease-in-out;
+}
+
+.closed .sidebarTreeItem {
+    justify-content: center;
+}
+
+.sidebarTreeItem:hover {
+    background-color: #272a31;
+    cursor: pointer;
+}
+
+.sidebarListIcon {
+    width: 18px;
+    height: 18px;
+}
+
+.closed .sidebarListIcon {
+    margin-right: 0;
+}
+
+.sidebarTreeItem.active {
+    background-color: #5641f4;
+}
+
+.sidebarTreeItem.active:hover {
+    background-color: #4c37eb;
+    cursor: pointer;
+}

@@ -1,0 +1,295 @@
+/* Dropdown menu */
+.dropdownMenu {
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    background: #101010;
+    border: 1px solid #363636;
+    border-radius: 4px;
+    min-width: 120px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    z-index: 999;
+    /* ensure it’s on top */
+}
+
+.dropdownMenu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.dropdownMenu ul li {
+    padding: 10px;
+    cursor: pointer;
+    transition: background 0.2s;
+    text-align: center;
+}
+
+.dropdownMenu ul li:hover {
+    background: #5641f4;
+}
+
+.dashboardContainer {
+    width: 100%;
+    height: 100%;
+    background-color: #101010;
+    color: #fff;
+    padding: 1rem;
+    padding-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    user-select: none !important;
+}
+
+.headerComponent {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 1rem;
+    width: 100%;
+}
+
+.accountButton {
+    font-size: 1.1rem;
+    border-radius: 50%;
+    padding: 0.3rem 0.8rem;
+    border: 2px solid #aaa;
+    transition: all 300ms ease-in-out;
+}
+
+.accountButton:hover {
+    background-color: #fafafa;
+    color: #000;
+    cursor: pointer;
+}
+
+.statsSection {
+    display: grid;
+    grid-template-columns: 4fr 5fr;
+    gap: 16px;
+    padding: 16px;
+    max-width: 1200px;
+    width: 100%;
+}
+
+.cardSection {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 16px;
+}
+
+.card {
+    background: linear-gradient(to top, #1a1a1a, #1f1f1f);
+    border-radius: 8px;
+    padding: 16px;
+    height: 100%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+}
+
+.topLeftCardDetails {
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+    display: flex;
+    align-items: center;
+    color: #888;
+}
+
+.cardIcon {
+    font-size: 1rem;
+    margin-right: 0.2rem;
+}
+
+.cardInfo {
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.cardValueContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+    height: 100%;
+}
+
+.cardValue {
+    font-size: 2rem;
+    margin: 0;
+}
+
+.chartSection {
+    background: linear-gradient(to top, #1a1a1a, #1f1f1f);
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 250px;
+}
+
+@media (max-width: 768px) {
+    .dashboard {
+        grid-template-columns: 1fr;
+        /* Single column layout for small screens */
+        gap: 16px;
+    }
+
+    .cardSection {
+        grid-template-columns: 1fr;
+        /* Cards stack vertically */
+        grid-template-rows: auto;
+    }
+}
+
+.dataTableSection {
+    width: 90%;
+    height: 100%;
+    background: linear-gradient(to top, #1a1a1a, #1f1f1f);
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+/* Data Info Section: the main container for the title and right-side controls */
+.dataInfoSection {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Left Side Title */
+.dataInfoTitle {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #fff;
+}
+
+/* Right Side Container: holds both search and filter */
+.dataInfoRightSection {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+/* Search Section Styling */
+.searchSection {
+    display: flex;
+    align-items: center;
+    background-color: #363636;
+    border-radius: 8px;
+    padding: 0.3rem 0.5rem;
+}
+
+/* Search Icon Styling */
+.searchIcon {
+    color: #888;
+    margin-right: 0.5rem;
+}
+
+/* Search Input Field Styling */
+.searchInput {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #fff;
+    font-size: 0.8rem;
+}
+
+.filterItemSection {
+    position: relative;
+    display: inline-block;
+}
+
+/* Filter Dropdown Styling */
+.filterDropdown {
+    background-color: #363636;
+    border: 1px solid #343434;
+    color: #fff;
+    /* default text color */
+    border-radius: 8px;
+    /* Add extra right padding for the custom arrow */
+    padding: 0.2rem 0.5rem;
+    padding-right: 1rem;
+    font-size: 1rem;
+    outline: none;
+    width: 120px;
+    /* Remove native styling to allow custom icon */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+/* Dropdown Icon Styling */
+.dropdownIcon {
+    position: absolute;
+    right: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: #fff;
+    font-size: 1.2rem;
+}
+
+.filterDropdown option:hover {
+    background-color: #5641f4 !important;
+}
+
+.filterDropdown .filterOption:hover {
+    background-color: #5641f4 !important;
+}
+
+/* Filter Item Section */
+.filterItemSection {
+    position: relative;
+    display: inline-block;
+}
+
+/* Filter Dropdown Styling */
+.filterDropdown {
+    background-color: #363636;
+    border: 1px solid #343434;
+    color: #fff;
+    border-radius: 8px;
+    padding: 0.2rem 0.5rem;
+    padding-right: 1rem;
+    /* leave this as-is */
+    font-size: 1rem;
+    outline: none;
+    width: 120px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+/* Dropdown Icon Styling */
+.dropdownIcon {
+    position: absolute;
+    right: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: #fff;
+    font-size: 1.2rem;
+}
+
+.tableComponent {
+    width: 100%;
+    height: 100%;
+}
