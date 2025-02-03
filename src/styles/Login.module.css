@@ -232,6 +232,9 @@
     cursor: pointer;
     border-radius: 0.375rem;
     transition: brightness 200ms ease-in-out;
+    background-color: #fafafa;
+    color: #1b1b1b;
+    width: 100%;
 }
 
 .submitButton:hover {
