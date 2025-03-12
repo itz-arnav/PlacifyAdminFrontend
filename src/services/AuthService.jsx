@@ -3,15 +3,16 @@ const AuthService = {
     const response = await fetch('https://placify-backend.vercel.app/api/auth/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
       body: JSON.stringify({ username, password }),
     });
+
     if (response.status === 200) {
       const data = await response.json();
-      localStorage.setItem('jwt', data.token);
+      localStorage.setItem('username', data.username);
       return true;
-    } else {
-      return false;
     }
+    return false;
   },
 
   async register(username, email, password) {
@@ -20,31 +21,39 @@ const AuthService = {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, email, password }),
     });
+
     if (response.status === 201) {
       return true;
-    } else {
-      const errorData = await response.json();
-      throw new Error(errorData.error || 'Registration failed');
     }
+    const errorData = await response.json();
+    throw new Error(errorData.error || 'Registration failed');
   },
 
-  async verifyToken(token) {
+  async verifyToken() {
     const response = await fetch('https://placify-backend.vercel.app/api/auth/verify', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
-      },
+      credentials: 'include',
     });
-    return response.status === 200;
+
+    if (response.status === 200) {
+      const data = await response.json();
+      return { valid: true, username: data.decoded.username };
+    }
+    return { valid: false };
   },
 
-  logout() {
-    localStorage.removeItem('jwt');
+  async logout() {
+    await fetch('https://placify-backend.vercel.app/api/auth/logout', {
+      method: 'POST',
+      credentials: 'include',
+    });
+
+    localStorage.removeItem('username');
   },
+
+  getStoredUser() {
+    return localStorage.getItem('username') || null;
+  }
 };
 
 export default AuthService;
-
-
-// await fetch('https://placify-backend.vercel.app/api/auth/login', {

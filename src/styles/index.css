@@ -1,8 +1,32 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&display=swap');
 
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
+}
+
+/* For Chrome, Safari, Edge, and Opera */
+::-webkit-scrollbar {
+    width: 8px;
+    /* Width of vertical scrollbar */
+    height: 8px;
+    /* Height of horizontal scrollbar */
+}
+
+::-webkit-scrollbar-track {
+    background: #1e1e1e;
+    /* The track (background) of the scrollbar */
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #aaa;
+    /* The draggable scrollbar thumb */
+    border-radius: 4px;
+    /* Rounded corners on the thumb */
+    border: 2px solid transparent;
+    /* Optional: adds spacing around the thumb */
+    background-clip: content-box;
+    /* Ensures the border doesn't change the color */
 }

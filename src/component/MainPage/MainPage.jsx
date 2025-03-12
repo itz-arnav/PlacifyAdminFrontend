@@ -45,7 +45,7 @@ const MainPage = () => {
                 setSelectedItem={setSelectedItem}
                 toggleSidebar={toggleSidebar}
             />
-            {/* Content area that changes based on the selected sidebar item */}
+
             <div className={css.contentContainer}>
                 {renderContent()}
             </div>

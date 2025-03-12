@@ -1,3 +1,4 @@
+// Signup.jsx
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
@@ -12,7 +13,6 @@ const Signup = () => {
     const [password, setPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
-
     const { register } = useAuth();
     const navigate = useNavigate();
 
@@ -40,8 +40,6 @@ const Signup = () => {
         setIsLoading(true);
         try {
             await register(username, email, password);
-            // Instead of setting isAuthenticated to true, go to the login page.
-            // Pass the username and password via state so that Login.jsx can prefill the form.
             navigate('/login', { state: { username, password } });
         } catch (error) {
             toast.error("Signup failed. Please check your details.");
@@ -57,17 +55,15 @@ const Signup = () => {
     return (
         <div className={css.loginContainer}>
             <FireworksComponent />
-
-            <div className={`${css.glass} ${css.item1}`}></div>
-            <div className={`${css.glass} ${css.item2}`}></div>
-            <div className={`${css.glass} ${css.item3}`}></div>
-            <div className={`${css.glass} ${css.item4}`}></div>
-            <div className={`${css.glass} ${css.item5}`}></div>
-            <div className={`${css.glass} ${css.item6}`}></div>
-            <div className={`${css.glass} ${css.item7}`}></div>
-            <div className={`${css.glass} ${css.item8}`}></div>
-            <div className={`${css.glass} ${css.item9}`}></div>
-
+            <div className={`${css.glass} ${css.item1}`} />
+            <div className={`${css.glass} ${css.item2}`} />
+            <div className={`${css.glass} ${css.item3}`} />
+            <div className={`${css.glass} ${css.item4}`} />
+            <div className={`${css.glass} ${css.item5}`} />
+            <div className={`${css.glass} ${css.item6}`} />
+            <div className={`${css.glass} ${css.item7}`} />
+            <div className={`${css.glass} ${css.item8}`} />
+            <div className={`${css.glass} ${css.item9}`} />
             <div className={css.loginFormSection}>
                 <div className={css.companyDetails}>
                     <img className={css.companyLogo} src="placify.png" alt="Placify Logo" />
@@ -79,7 +75,6 @@ const Signup = () => {
                         Welcome! Please fill in the details to get started.
                     </span>
                 </div>
-
                 <form className={css.formContainer} onSubmit={handleSubmit} noValidate>
                     <div className={css.inputSection}>
                         <label htmlFor="username" className={css.inputLabel}>Username</label>
@@ -136,7 +131,6 @@ const Signup = () => {
                         {isLoading ? "Signing up..." : "Sign up"}
                     </button>
                 </form>
-
                 <footer className={css.footerSection}>
                     <span>Already have an account? </span>
                     <a className={css.signupLink} onClick={() => navigate('/login')}>

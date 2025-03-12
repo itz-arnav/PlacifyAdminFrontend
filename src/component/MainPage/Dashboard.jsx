@@ -1,76 +1,59 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { TbClick } from "react-icons/tb";
-import { FaSearch } from "react-icons/fa";
-import { IoIosArrowDown } from "react-icons/io";
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  Tooltip,
-  ResponsiveContainer
-} from 'recharts';
+import { TbClick } from "react-icons/tb"
+import { FaSearch } from "react-icons/fa"
+import { IoIosArrowDown } from "react-icons/io"
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
+import { useAuth } from '../../context/AuthContext'
+import { useNavigate } from 'react-router-dom'
 import TableComponent from './TableComponent'
-import css from "../../styles/MainPage/Dashboard.module.css"
+import styles from "../../styles/MainPage/Dashboard.module.css"
 
 const Dashboard = () => {
-  const [showDropdown, setShowDropdown] = useState(false)
-  const [activeIndex, setActiveIndex] = useState(null)
-  const [searchQuery, setSearchQuery] = useState("")
-  const [selectedFilter, setSelectedFilter] = useState("all")
-
+  const [dropdownVisible, setDropdownVisible] = useState(false)
+  const [hoveredBarIndex, setHoveredBarIndex] = useState(null)
+  const [searchText, setSearchText] = useState("")
+  const [filterValue, setFilterValue] = useState("all")
+  const { logout } = useAuth()
+  const navigate = useNavigate()
   const dropdownRef = useRef(null)
-  const accountButtonRef = useRef(null)
-
-  // Updated data for a 7-day week (Wed to Tue) with clicks between 150 - 300
-  const data = [
-    { name: 'Wed', uv: 210 },
-    { name: 'Thu', uv: 260 },
-    { name: 'Fri', uv: 300 },
-    { name: 'Sat', uv: 150 },
-    { name: 'Sun', uv: 230 },
-    { name: 'Mon', uv: 280 },
-    { name: 'Tue', uv: 180 },
-  ];
-
-  const handleToggleDropdown = () => {
-    setShowDropdown((prev) => !prev)
+  const accountBtnRef = useRef(null)
+  const chartData = [
+    { name: 'Wed', value: 210 },
+    { name: 'Thu', value: 260 },
+    { name: 'Fri', value: 300 },
+    { name: 'Sat', value: 150 },
+    { name: 'Sun', value: 230 },
+    { name: 'Mon', value: 280 },
+    { name: 'Tue', value: 180 }
+  ]
+  const toggleDropdown = () => {
+    setDropdownVisible(prev => !prev)
   }
-
   useEffect(() => {
-    function handleClickOutside(event) {
+    const handleClickOutside = (event) => {
       if (
         dropdownRef.current &&
         !dropdownRef.current.contains(event.target) &&
-        !accountButtonRef.current.contains(event.target)
+        !accountBtnRef.current.contains(event.target)
       ) {
-        setShowDropdown(false)
+        setDropdownVisible(false)
       }
     }
     document.addEventListener("mousedown", handleClickOutside)
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside)
-    }
+    return () => document.removeEventListener("mousedown", handleClickOutside)
   }, [])
-
-  // Default and hover colors
-  const defaultBarColor = "#5641f4";
-  const hoverBarColor = "#6d59f9";
-
-  // Custom Bar component to change color on hover
+  const DEFAULT_BAR_COLOR = "#5641f4"
+  const HOVER_BAR_COLOR = "#6d59f9"
   const CustomBar = (props) => {
-    const { x, y, width, height, index, fill } = props;
-    const fillColor = index === activeIndex ? hoverBarColor : fill;
-    return <rect x={x} y={y} width={width} height={height} fill={fillColor} />;
-  };
-
-  // Custom Tooltip that shows only the value with a matching card background,
-  // positioned below the mouse pointer using the coordinate prop.
+    const { x, y, width, height, index, fill } = props
+    const fillColor = index === hoveredBarIndex ? HOVER_BAR_COLOR : fill
+    return <rect x={x} y={y} width={width} height={height} fill={fillColor} />
+  }
   const CustomTooltip = ({ active, payload, coordinate }) => {
     if (active && payload && payload.length) {
       return (
         <div
-          className={css.customTooltip}
+          className={styles.customTooltip}
           style={{
             background: 'linear-gradient(to top, #1a1a1a, #1f1f1f)',
             padding: '8px',
@@ -78,150 +61,130 @@ const Dashboard = () => {
             color: '#fff',
             position: 'absolute',
             left: coordinate.x,
-            top: coordinate.y + 10, // 10px offset below the pointer
+            top: coordinate.y + 10,
             pointerEvents: 'none'
           }}
         >
           <p style={{ margin: 0 }}>{payload[0].value}</p>
         </div>
-      );
+      )
     }
-    return null;
-  };
-
-  // Custom tick renderer for XAxis: highlight "Tue" with color #fff, others #888.
-  const renderCustomXAxisTick = (props) => {
-    const { x, y, payload } = props;
-    const fill = payload.value === "Tue" ? "#fff" : "#888";
+    return null
+  }
+  const renderXAxisTick = ({ x, y, payload }) => {
+    const fill = payload.value === "Tue" ? "#fff" : "#888"
     return (
       <text x={x} y={y + 16} textAnchor="middle" fill={fill}>
         {payload.value}
       </text>
-    );
-  };
-
+    )
+  }
+  const handleLogout = () => {
+    logout()
+    navigate("/login")
+  }
   return (
-    <div className={css.dashboardContainer}>
-      <div className={css.headerComponent}>
-        <h2 className={css.pageTitle}>Dashboard</h2>
-        {/* Account button */}
-        <div
-          ref={accountButtonRef}
-          className={css.accountButton}
-          onClick={handleToggleDropdown}
-        >
+    <div className={styles.dashboardContainer}>
+      <div className={styles.header}>
+        <h2 className={styles.title}>Dashboard</h2>
+        <div ref={accountBtnRef} className={styles.accountButton} onClick={toggleDropdown}>
           T
         </div>
-        {/* Dropdown menu */}
-        {showDropdown && (
-          <div className={css.dropdownMenu} ref={dropdownRef}>
+        {dropdownVisible && (
+          <div className={styles.dropdown} ref={dropdownRef}>
             <ul>
               <li>Profile</li>
-              <li>Logout</li>
+              <li onClick={handleLogout}>Logout</li>
             </ul>
           </div>
         )}
       </div>
-
-      <div className={css.statsSection}>
-        <div className={css.cardSection}>
-          {/* Card 1 */}
-          <div className={css.card}>
-            <div className={css.topLeftCardDetails}>
-              <TbClick className={css.cardIcon} />
-              <span className={css.cardInfo}>Today's Interactions</span>
+      <div className={styles.statsSection}>
+        <div className={styles.cards}>
+          <div className={styles.card}>
+            <div className={styles.cardHeader}>
+              <TbClick className={styles.cardIcon} />
+              <span className={styles.cardLabel}>Today's Interactions</span>
             </div>
-            <div className={css.cardValueContainer}>
-              <h3 className={css.cardValue}>300</h3>
+            <div className={styles.cardValueWrapper}>
+              <h3 className={styles.cardValue}>300</h3>
             </div>
           </div>
-          {/* Card 2 */}
-          <div className={css.card}>
-            <div className={css.topLeftCardDetails}>
-              <TbClick className={css.cardIcon} />
-              <span className={css.cardInfo}>This Week's Interactions</span>
+          <div className={styles.card}>
+            <div className={styles.cardHeader}>
+              <TbClick className={styles.cardIcon} />
+              <span className={styles.cardLabel}>This Week's Interactions</span>
             </div>
-            <div className={css.cardValueContainer}>
-              <h3 className={css.cardValue}>1500</h3>
-            </div>
-          </div>
-          {/* Card 3 */}
-          <div className={css.card}>
-            <div className={css.topLeftCardDetails}>
-              <TbClick className={css.cardIcon} />
-              <span className={css.cardInfo}>This Month's Interactions</span>
-            </div>
-            <div className={css.cardValueContainer}>
-              <h3 className={css.cardValue}>6200</h3>
+            <div className={styles.cardValueWrapper}>
+              <h3 className={styles.cardValue}>1500</h3>
             </div>
           </div>
-          {/* Card 4 */}
-          <div className={css.card}>
-            <div className={css.topLeftCardDetails}>
-              <TbClick className={css.cardIcon} />
-              <span className={css.cardInfo}>This Years's Interactions</span>
+          <div className={styles.card}>
+            <div className={styles.cardHeader}>
+              <TbClick className={styles.cardIcon} />
+              <span className={styles.cardLabel}>This Month's Interactions</span>
             </div>
-            <div className={css.cardValueContainer}>
-              <h3 className={css.cardValue}>75434</h3>
+            <div className={styles.cardValueWrapper}>
+              <h3 className={styles.cardValue}>6200</h3>
+            </div>
+          </div>
+          <div className={styles.card}>
+            <div className={styles.cardHeader}>
+              <TbClick className={styles.cardIcon} />
+              <span className={styles.cardLabel}>This Year's Interactions</span>
+            </div>
+            <div className={styles.cardValueWrapper}>
+              <h3 className={styles.cardValue}>75434</h3>
             </div>
           </div>
         </div>
-
-        <div className={css.chartSection}>
-          <ResponsiveContainer width="96%" height="96%" className={css.barContainer}>
-            <BarChart data={data}>
-              <XAxis dataKey="name" tick={renderCustomXAxisTick} tickLine={false} axisLine={false} />
+        <div className={styles.chart}>
+          <ResponsiveContainer width="96%" height="96%" className={styles.barContainer}>
+            <BarChart data={chartData}>
+              <XAxis dataKey="name" tick={renderXAxisTick} tickLine={false} axisLine={false} />
               <YAxis tickLine={false} axisLine={false} />
               <Tooltip content={<CustomTooltip />} cursor={false} />
               <Bar
-                dataKey="uv"
-                fill={defaultBarColor}
-                onMouseEnter={(data, index) => setActiveIndex(index)}
-                onMouseLeave={() => setActiveIndex(null)}
-                shape={(props) => <CustomBar {...props} activeIndex={activeIndex} />}
+                dataKey="value"
+                fill={DEFAULT_BAR_COLOR}
+                onMouseEnter={(data, index) => setHoveredBarIndex(index)}
+                onMouseLeave={() => setHoveredBarIndex(null)}
+                shape={(props) => <CustomBar {...props} activeIndex={hoveredBarIndex} />}
               />
             </BarChart>
           </ResponsiveContainer>
         </div>
       </div>
-
-      {/* Data Info Section */}
-      <div className={css.dataTableSection}>
-        <div className={css.dataInfoSection}>
-          {/* Left side title */}
-          <span className={css.dataInfoTitle}>Recent Items</span>
-          {/* Right side search and filter */}
-          <div className={css.dataInfoRightSection}>
-            {/* Search with icon and text field */}
-            <div className={css.searchSection}>
-              <FaSearch className={css.searchIcon} />
+      <div className={styles.tableSection}>
+        <div className={styles.dataHeader}>
+          <span className={styles.dataTitle}>Recent Items</span>
+          <div className={styles.dataControls}>
+            <div className={styles.searchBox}>
+              <FaSearch className={styles.searchIcon} />
               <input
                 type="text"
                 placeholder="Search..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className={css.searchInput}
+                value={searchText}
+                onChange={(e) => setSearchText(e.target.value)}
+                className={styles.searchInput}
               />
             </div>
-            {/* Filter dropdown */}
-            <div className={css.filterItemSection}>
+            <div className={styles.filterBox}>
               <select
-                value={selectedFilter}
-                onChange={(e) => setSelectedFilter(e.target.value)}
-                className={css.filterDropdown}
+                value={filterValue}
+                onChange={(e) => setFilterValue(e.target.value)}
+                className={styles.filterSelect}
               >
-                <option value="all" className={css.filterOption}>All</option>
-                <option value="active" className={css.filterOption}>Active</option>
-                <option value="inactive" className={css.filterOption}>Inactive</option>
+                <option value="all">All</option>
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
               </select>
-              <IoIosArrowDown className={css.dropdownIcon} />
+              <IoIosArrowDown className={styles.filterIcon} />
             </div>
           </div>
         </div>
-
-        <TableComponent className={css.tableComponent} />
+        <TableComponent className={styles.table} />
       </div>
-
     </div>
   )
 }

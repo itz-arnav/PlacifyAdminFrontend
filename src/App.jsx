@@ -11,6 +11,10 @@ import Home from './views/Home';
 function App() {
   const { isAuthenticated } = useAuth();
 
+  if (isAuthenticated === null) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <Router>
       <ToastContainer className="toastContainer"
@@ -26,7 +30,7 @@ function App() {
       <Routes>
         <Route path="/login" element={isAuthenticated ? <Navigate to="/" /> : <Login />} />
         <Route path="/" element={isAuthenticated ? <Home /> : <Navigate to="/login" />} />
-        <Route path="/signup" element={<Signup />} />
+        <Route path="/signup" element={isAuthenticated ? <Navigate to="/" /> : <Signup />} />
         <Route path="*" element={<Navigate to="/login" />} />
       </Routes>
     </Router>

@@ -1,57 +1,62 @@
 import React, { useMemo } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import { ClientSideRowModelModule } from 'ag-grid-community';
-
-// 1) Legacy CSS for grid + Alpine theme
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
+import '../../styles/MainPage/CustomAlpineDark.css';
 
-// 2) Your dark overrides file (ensures .ag-theme-alpine-dark is truly dark)
-import '../../styles/MainPage/CustomAlphineDark.css';
-
-// Custom cell renderer for images (from public folder)
-const ImageCellRenderer = (params) => {
+const NameRenderer = (params) => {
+    const { data } = params;
     return (
-        <div
-            style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                height: '100%',
-            }}
-        >
+        <div className="name-cell">
             <img
-                src={params.value}
-                alt="Placeholder"
-                style={{ maxWidth: '24px', maxHeight: '24px' }}
+                src={data.image}
+                alt="Icon"
+                className="name-cell__image"
             />
+            <span className="name-cell__text">
+                {params.value}
+            </span>
+        </div>
+    );
+};
+
+const CompanyRenderer = (params) => {
+    const { data } = params;
+    return (
+        <div className="company-cell">
+            <span className="company-cell__name">{params.value}</span>
+            <a
+                href={`https://${data.website}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="company-cell__link"
+            >
+                {data.website}
+            </a>
+        </div>
+    );
+};
+
+const DefaultRenderer = (params) => {
+    return (
+        <div className="default-cell">
+            {params.value}
         </div>
     );
 };
 
 function TableComponent() {
     const columnDefs = useMemo(() => [
-        {
-            headerName: 'Name',
-            field: 'name',
-            width: 200,
-        },
-        { headerName: 'Company', field: 'company', flex: 2 },
-        { headerName: 'Website', field: 'website', flex: 2 },
-        { headerName: 'Closing Date', field: 'closingDate', flex: 2 },
-        { headerName: 'Type', field: 'type', flex: 2 },
-        {
-            headerName: 'Image',
-            field: 'image',
-            flex: 2,
-            cellRenderer: ImageCellRenderer,
-        },
-        { headerName: 'CTC', field: 'ctc', flex: 1 },
-        { headerName: 'Batch', field: 'batch', flex: 1 },
-        { headerName: 'Actions', field: 'actions', flex: 2 },
+        { headerName: 'Name', field: 'name', width: 200, cellRenderer: NameRenderer },
+        { headerName: 'Company', field: 'company', flex: 2, cellRenderer: CompanyRenderer },
+        { headerName: 'Closing Date', field: 'closingDate', flex: 2, cellRenderer: DefaultRenderer },
+        { headerName: 'Type', field: 'type', flex: 2, cellRenderer: DefaultRenderer },
+        { headerName: 'CTC', field: 'ctc', flex: 1, cellRenderer: DefaultRenderer },
+        { headerName: 'Batch', field: 'batch', flex: 1, cellRenderer: DefaultRenderer },
+        { headerName: 'Actions', field: 'actions', flex: 2, cellRenderer: DefaultRenderer }
     ], []);
 
-    // 10 data rows
     const rowData = useMemo(() => [
         {
             name: 'Software Developer 1',
@@ -62,10 +67,10 @@ function TableComponent() {
             image: '/image1.png',
             ctc: '30 LPA',
             batch: '2023-2025',
-            actions: 'Apply',
+            actions: 'Apply'
         },
         {
-            name: 'Software Developer 2',
+            name: 'Software Developer 2 grhffwrtrhyf4tgdvwrfdb',
             company: 'Amazon',
             website: 'amazon.com',
             closingDate: '2025-04-10',
@@ -73,7 +78,7 @@ function TableComponent() {
             image: '/image2.png',
             ctc: '25 LPA',
             batch: '2023-2025',
-            actions: 'Apply',
+            actions: 'Apply'
         },
         {
             name: 'Software Developer 3',
@@ -84,7 +89,7 @@ function TableComponent() {
             image: '/image1.png',
             ctc: '32 LPA',
             batch: '2023-2025',
-            actions: 'View',
+            actions: 'View'
         },
         {
             name: 'Software Developer 4',
@@ -95,7 +100,7 @@ function TableComponent() {
             image: '/image1.png',
             ctc: '35 LPA',
             batch: '2023-2025',
-            actions: 'Apply',
+            actions: 'Apply'
         },
         {
             name: 'Software Developer 5',
@@ -106,18 +111,18 @@ function TableComponent() {
             image: '/image2.png',
             ctc: '20 LPA',
             batch: '2023-2025',
-            actions: 'Apply',
+            actions: 'Apply'
         },
         {
             name: 'Software Developer 6',
             company: 'Netflix',
-            website: 'netflix.com',
+            website: 'dribbble.com/shots/22815413-Storeshop-Dashboard',
             closingDate: '2025-07-30',
             type: 'Full-time',
             image: '/image1.png',
             ctc: '40 LPA',
             batch: '2023-2025',
-            actions: 'View',
+            actions: 'View'
         },
         {
             name: 'Software Developer 7',
@@ -128,7 +133,7 @@ function TableComponent() {
             image: '/image2.png',
             ctc: '42 LPA',
             batch: '2023-2025',
-            actions: 'Apply',
+            actions: 'Apply'
         },
         {
             name: 'Software Developer 8',
@@ -139,7 +144,7 @@ function TableComponent() {
             image: '/image1.png',
             ctc: '22 LPA',
             batch: '2023-2025',
-            actions: 'Apply',
+            actions: 'Apply'
         },
         {
             name: 'Software Developer 9',
@@ -150,7 +155,7 @@ function TableComponent() {
             image: '/image2.png',
             ctc: '28 LPA',
             batch: '2023-2025',
-            actions: 'View',
+            actions: 'View'
         },
         {
             name: 'Software Developer 10',
@@ -161,30 +166,19 @@ function TableComponent() {
             image: '/image1.png',
             ctc: '31 LPA',
             batch: '2023-2025',
-            actions: 'Apply',
-        },
+            actions: 'Apply'
+        }
     ], []);
 
     return (
-        <div
-            className="ag-theme-alpine-dark tableContainer"
-            style={{
-                height: '100%',
-                width: '100%',
-                overflowX: 'auto', // horizontal scroll if needed
-            }}
-        >
+        <div className="ag-theme-alpine-dark table-container">
             <AgGridReact
                 modules={[ClientSideRowModelModule]}
                 rowModelType="clientSide"
                 columnDefs={columnDefs}
                 rowData={rowData}
-                theme="legacy"
-                defaultColDef={{
-                    resizable: true,
-                    sortable: true,
-                    minWidth: 100,
-                }}
+                defaultColDef={{ resizable: true, sortable: true, minWidth: 100 }}
+                rowHeight={45}
             />
         </div>
     );

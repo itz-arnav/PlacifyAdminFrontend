@@ -8,35 +8,36 @@ export const useAuth = () => useContext(AuthContext);
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [checkingAuth, setCheckingAuth] = useState(true);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const verifyStoredToken = async () => {
-      const token = localStorage.getItem('jwt');
-      if (token) {
-        try {
-          const valid = await AuthService.verifyToken(token);
-          setIsAuthenticated(valid);
-        } catch (error) {
-          setIsAuthenticated(false);
-        }
+    const verifyAuth = async () => {
+      const result = await AuthService.verifyToken();
+      if (result.valid) {
+        setIsAuthenticated(true);
+        setUser(result.username);
+        localStorage.setItem('username', result.username);
       } else {
         setIsAuthenticated(false);
+        setUser(null);
+        localStorage.removeItem('username');
       }
       setCheckingAuth(false);
     };
-    verifyStoredToken();
+    verifyAuth();
   }, []);
 
   const login = async (username, password) => {
-    const result = await AuthService.login(username, password);
-    if (result) {
+    const success = await AuthService.login(username, password);
+    if (success) {
       setIsAuthenticated(true);
+      setUser(username);
+      localStorage.setItem('username', username);
       return true;
     }
     throw new Error('Login failed');
   };
 
-  // Note: On successful registration, we are NOT setting isAuthenticated.
   const register = async (username, email, password) => {
     const result = await AuthService.register(username, email, password);
     if (result) {
@@ -45,15 +46,17 @@ export const AuthProvider = ({ children }) => {
     throw new Error('Registration failed');
   };
 
-  const logout = () => {
-    AuthService.logout();
+  const logout = async () => {
+    await AuthService.logout();
     setIsAuthenticated(false);
+    setUser(null);
+    localStorage.removeItem('username');
   };
 
   if (checkingAuth) return null;
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, register, logout }}>
+    <AuthContext.Provider value={{ user, isAuthenticated, login, register, logout }}>
       {children}
     </AuthContext.Provider>
   );
