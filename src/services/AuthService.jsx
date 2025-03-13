@@ -1,6 +1,12 @@
+const USE_PRODUCTION = true;
+
+const BASE_URL = USE_PRODUCTION
+  ? 'https://placify-backend.vercel.app'
+  : 'http://localhost:7777';
+
 const AuthService = {
   async login(username, password) {
-    const response = await fetch('http://localhost:7777/api/auth/login', {
+    const response = await fetch(`${BASE_URL}/api/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
@@ -14,8 +20,9 @@ const AuthService = {
     console.log('AuthService login failed');
     return { success: false };
   },
+
   async register(username, email, password) {
-    const response = await fetch('http://localhost:7777/api/auth/register', {
+    const response = await fetch(`${BASE_URL}/api/auth/register`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, email, password }),
@@ -28,8 +35,9 @@ const AuthService = {
     console.log('AuthService register error', errorData.error);
     throw new Error(errorData.error || 'Registration failed');
   },
+
   async verifyToken() {
-    const response = await fetch('http://localhost:7777/api/auth/verify', {
+    const response = await fetch(`${BASE_URL}/api/auth/verify`, {
       method: 'POST',
       credentials: 'include',
     });
@@ -41,8 +49,9 @@ const AuthService = {
     console.log('AuthService verify failed');
     return { valid: false };
   },
+
   async logout() {
-    const response = await fetch('http://localhost:7777/api/auth/logout', {
+    const response = await fetch(`${BASE_URL}/api/auth/logout`, {
       method: 'POST',
       credentials: 'include',
     });
