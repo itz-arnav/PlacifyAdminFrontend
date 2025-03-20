@@ -1,63 +1,116 @@
-import React, { useEffect } from 'react';
-import { HashRouter as Router, Route, Routes, Navigate, useLocation, useNavigate } from 'react-router-dom';
+import React, { Suspense, lazy } from 'react';
+import { HashRouter as Router, Route, Routes, Navigate, useLocation } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import "./styles/App.css";
 import { useAuth } from './context/AuthContext';
-import Login from './views/Login';
-import Signup from './views/Signup';
-import Home from './views/Home';
+import LoadingSpinner from './component/LoadingSpinner';
+import ErrorBoundary from './component/ErrorBoundary';
+
+// Lazy load components for better performance
+const Login = lazy(() => import('./views/Login'));
+const Signup = lazy(() => import('./views/Signup'));
+const Home = lazy(() => import('./views/Home'));
+
+// Route configuration
+const routes = [
+  {
+    path: '/login',
+    element: <Login />,
+    requiresAuth: false,
+  },
+  {
+    path: '/signup',
+    element: <Signup />,
+    requiresAuth: false,
+  },
+  {
+    path: '/',
+    element: <Home />,
+    requiresAuth: true,
+  },
+];
+
+// Protected Route wrapper component
+const ProtectedRoute = ({ children, isAuthenticated }) => {
+  const location = useLocation();
+  
+  if (!isAuthenticated) {
+    return <Navigate to="/login" state={{ from: location }} replace />;
+  }
+  
+  return children;
+};
+
+// Public Route wrapper component (redirects to home if already authenticated)
+const PublicRoute = ({ children, isAuthenticated }) => {
+  const location = useLocation();
+  
+  if (isAuthenticated) {
+    return <Navigate to="/" state={{ from: location }} replace />;
+  }
+  
+  return children;
+};
 
 function App() {
   const { isAuthenticated } = useAuth();
 
   if (isAuthenticated === null) {
-    return <div>Loading...</div>;
+    return <LoadingSpinner />;
   }
 
   return (
-    <Router>
-      <ToastContainer className="toastContainer"
-        position="top-center"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover />
+    <ErrorBoundary>
+      <Router>
+        <ToastContainer
+          className="toastContainer"
+          position="top-center"
+          autoClose={2000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
 
-      <RedirectHandler isAuthenticated={isAuthenticated} />
-
-      <Routes>
-        <Route path="/login" element={isAuthenticated ? <Navigate to="/" replace /> : <Login />} />
-        <Route path="/signup" element={isAuthenticated ? <Navigate to="/" replace /> : <Signup />} />
-        <Route path="/" element={isAuthenticated ? <Home /> : <Navigate to="/login" replace />} />
-
-        {/* Catch-all route: Redirects properly */}
-        <Route path="*" element={isAuthenticated ? <Navigate to="/" replace /> : <Navigate to="/login" replace />} />
-      </Routes>
-    </Router>
+        <Suspense fallback={<LoadingSpinner />}>
+          <Routes>
+            {routes.map((route, index) => (
+              <Route
+                key={index}
+                path={route.path}
+                element={
+                  route.requiresAuth ? (
+                    <ProtectedRoute isAuthenticated={isAuthenticated}>
+                      {route.element}
+                    </ProtectedRoute>
+                  ) : (
+                    <PublicRoute isAuthenticated={isAuthenticated}>
+                      {route.element}
+                    </PublicRoute>
+                  )
+                }
+              />
+            ))}
+            {/* Catch-all route */}
+            <Route
+              path="*"
+              element={
+                <Navigate
+                  to={isAuthenticated ? '/' : '/login'}
+                  replace
+                />
+              }
+            />
+          </Routes>
+        </Suspense>
+      </Router>
+    </ErrorBoundary>
   );
-}
-
-/**
- * This component listens for URL changes and forces navigation 
- * to "/" if the user is authenticated but visiting an unknown page.
- */
-function RedirectHandler({ isAuthenticated }) {
-  const location = useLocation();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    // If authenticated and on an invalid route, force navigation to "/"
-    if (isAuthenticated && location.pathname !== "/") {
-      navigate("/", { replace: true });
-    }
-  }, [isAuthenticated, location, navigate]);
-
-  return null;
 }
 
 export default App;

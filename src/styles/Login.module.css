@@ -1,4 +1,16 @@
 /* Login.module.css */
+.loginContainer {
+    background-color: #0e1317;
+    width: 100vw;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI (Custom)", Roboto, "Helvetica Neue", "Open Sans (Custom)", system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+}
+
 .glass {
     background: rgba(255, 255, 255, 0.245);
     border-radius: 32px;
@@ -8,6 +20,7 @@
     z-index: 2;
 }
 
+/* Glass item positions */
 .item1 {
     position: absolute;
     width: 5rem;
@@ -96,18 +109,6 @@
     left: 4%;
     transform: rotate(0.3221075turn);
     opacity: 0.222888;
-}
-
-.loginContainer {
-    background-color: #0e1317;
-    width: 100vw;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    position: relative;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI (Custom)", Roboto, "Helvetica Neue", "Open Sans (Custom)", system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
 }
 
 .loginFormSection {
@@ -218,6 +219,49 @@
     box-shadow: 0 0 0 1px rgba(79, 70, 229, 0.3);
 }
 
+.input::placeholder {
+    color: #718096;
+}
+
+.inputError {
+    border-color: #e53e3e;
+}
+
+.inputError:focus {
+    border-color: #e53e3e;
+    box-shadow: 0 0 0 2px rgba(229, 62, 62, 0.2);
+}
+
+.errorMessage {
+    color: #e53e3e;
+    font-size: 0.85rem;
+    margin-top: 0.25rem;
+}
+
+.passwordInputWrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.passwordToggle {
+    position: absolute;
+    right: 0.75rem;
+    background: none;
+    border: none;
+    color: #718096;
+    cursor: pointer;
+    padding: 0.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s ease;
+}
+
+.passwordToggle:hover {
+    color: #a0aec0;
+}
+
 .submitButton {
     margin-top: 1rem;
     cursor: pointer;
@@ -251,12 +295,15 @@
 }
 
 .signupLink {
-    color: #fff;
+    background: transparent;
+    border: none;
+    color: #718096;
     font-weight: 500;
     cursor: pointer;
-    transition: text-decoration 300ms ease-in-out;
+    transition: color 300ms ease-in-out;
 }
 
 .signupLink:hover {
-    text-decoration: underline;
+    color: #fff;
+    text-decoration: none;
 }

@@ -3,12 +3,13 @@
     height: 100%;
     background-color: #1b1b1b;
     border-right: 1px solid #ffffff09;
-    padding: 1.2rem 0.5rem;
+    padding: 1.2rem 0.75rem;
 
     display: flex;
     flex-direction: column;
     align-items: center;
     user-select: none;
+    transition: width 0.3s ease-in-out;
 }
 
 .sidebarContainer.closed {
@@ -58,6 +59,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
 }
 
 .sidebarIcon:hover {
@@ -71,6 +76,7 @@
     list-style: none;
     gap: 0.5rem;
     width: 100%;
+    padding: 0;
 }
 
 .sidebarTreeItem {
@@ -80,14 +86,19 @@
     border-radius: 0.5rem;
     color: #fff;
     font-size: 0.95rem;
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 0.75rem;
     opacity: 0.85;
     gap: 0.7rem;
-    transition: all 300ms ease-in-out;
+    transition: all 0.3s ease-in-out;
+    position: relative;
+    white-space: nowrap;
+    margin: 0;
+    z-index: 9999;
 }
 
 .closed .sidebarTreeItem {
     justify-content: center;
+    padding: 0.5rem;
 }
 
 .sidebarTreeItem:hover {
@@ -106,9 +117,91 @@
 
 .sidebarTreeItem.active {
     background-color: #5641f4;
+    opacity: 1;
+    box-shadow: 0 2px 8px rgba(86, 65, 244, 0.3);
 }
 
 .sidebarTreeItem.active:hover {
     background-color: #4c37eb;
+    transform: translateY(-1px);
+}
+
+.tooltip {
+    position: absolute;
+    left: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #272a31;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
+    margin-left: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    pointer-events: none;
+}
+
+.sidebarContainer.closed .sidebarTreeItem:hover .tooltip {
+    opacity: 1;
+    visibility: visible;
+}
+
+.listItemLabel {
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+    overflow: hidden;
+}
+
+.sidebarContainer:not(.closed) .listItemLabel {
+    opacity: 1;
+}
+
+.sidebarFooter {
+    margin-top: auto;
+    width: 100%;
+    padding: 1rem 0;
+    border-top: 1px solid #ffffff09;
+}
+
+.logoutButton {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    border-radius: 0.5rem;
+    color: #fff;
+    font-size: 0.95rem;
+    padding: 0.5rem 1rem;
+    opacity: 0.85;
+    gap: 0.7rem;
+    transition: all 0.3s ease-in-out;
+    background: none;
+    border: none;
     cursor: pointer;
+    position: relative;
+    z-index: 9999;
+}
+
+.logoutButton:hover {
+    background-color: #272a31;
+    opacity: 1;
+}
+
+.closed .logoutButton {
+    justify-content: center;
+}
+
+.sidebarContainer.closed .logoutButton:hover .tooltip {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Focus styles for accessibility */
+.sidebarTreeItem:focus-visible,
+.logoutButton:focus-visible {
+    outline: 2px solid #5641f4;
+    outline-offset: 2px;
 }

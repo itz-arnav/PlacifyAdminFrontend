@@ -10,6 +10,7 @@
     align-items: center;
     gap: 0.5rem;
     user-select: none;
+    overflow-x: hidden;
 }
 
 .header {
@@ -43,45 +44,74 @@
     position: absolute;
     top: 60px;
     right: 20px;
-    background: #101010;
+    background: linear-gradient(to top, #1a1a1a, #1f1f1f);
     border: 1px solid #363636;
-    border-radius: 4px;
-    min-width: 120px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    min-width: 160px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     z-index: 999;
+    padding: 0.3rem 0.5rem;
 }
 
 .dropdown ul {
     list-style: none;
     margin: 0;
     padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
 }
 
 .dropdown ul li {
-    padding: 10px;
-    text-align: center;
+    padding: 0.6rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: all 0.2s ease 0.1s;
+    color: #fff;
+    border-radius: 6px;
+    margin: 0 0.2rem;
 }
 
 .dropdown ul li:hover {
     background: #5641f4;
+    color: #fff;
+}
+
+.dropdownIcon {
+    font-size: 1.1rem;
+    color: #888;
+    transition: color 0.2s ease 0.1s;
+}
+
+.dropdown ul li:hover .dropdownIcon {
+    color: #fff;
+}
+
+.dropdown ul li span {
+    font-size: 0.9rem;
+    font-weight: 500;
 }
 
 .statsSection {
     display: grid;
-    grid-template-columns: 4fr 5fr;
-    gap: 16px;
-    padding: 16px;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 2rem;
+    padding: 1rem;
     max-width: 1100px;
     width: 100%;
 }
 
 .cards {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
-    gap: 16px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
 }
 
 .card {
@@ -89,6 +119,9 @@
     border-radius: 8px;
     padding: 16px;
     height: 100%;
+    min-height: 120px;
+    max-width: 280px;
+    width: 100%;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     color: #fff;
     display: flex;
@@ -97,6 +130,7 @@
     align-items: center;
     text-align: center;
     position: relative;
+    margin: 0 auto;
 }
 
 .cardHeader {
@@ -142,6 +176,9 @@
     align-items: center;
     text-align: center;
     min-height: 250px;
+    max-width: 600px;
+    width: 100%;
+    margin: 0 auto;
 }
 
 .customTooltip {
@@ -156,6 +193,7 @@
 .tableSection {
     width: 96%;
     height: 100%;
+    min-height: 400px;
     background: linear-gradient(to top, #1a1a1a, #1f1f1f);
     border-radius: 8px;
     padding: 16px;
@@ -169,6 +207,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding-bottom: 1rem;
 }
 
 .dataTitle {
@@ -237,4 +276,238 @@
 .table {
     width: 100%;
     height: 100%;
+    min-height: 320px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #5641f4 #1f1f1f;
+}
+
+.table::-webkit-scrollbar {
+    width: 8px;
+}
+
+.table::-webkit-scrollbar-track {
+    background: #1f1f1f;
+    border-radius: 4px;
+}
+
+.table::-webkit-scrollbar-thumb {
+    background-color: #5641f4;
+    border-radius: 4px;
+    border: 2px solid #1f1f1f;
+}
+
+/* Tablet Styles */
+@media screen and (max-width: 1024px) {
+    .dashboardContainer {
+        padding: 0.8rem;
+    }
+
+    .statsSection {
+        grid-template-columns: 1fr;
+        padding: 1rem;
+        gap: 2rem;
+    }
+
+    .cards {
+        gap: 1.5rem;
+        max-width: 500px;
+    }
+
+    .card {
+        min-height: 100px;
+        max-width: 250px;
+    }
+
+    .cardValue {
+        font-size: 1.8rem;
+    }
+
+    .chart {
+        min-height: 200px;
+        padding: 12px;
+        max-width: 500px;
+    }
+
+    .tableSection {
+        width: 100%;
+        padding: 12px;
+        min-height: 380px;
+    }
+
+    .table {
+        min-height: 300px;
+    }
+}
+
+/* Mobile Styles */
+@media screen and (max-width: 620px) {
+    .dashboardContainer {
+        padding: 0.5rem;
+    }
+
+    .header {
+        margin: 0 0.5rem;
+    }
+
+    .title {
+        font-size: 1.2rem;
+    }
+
+    .statsSection {
+        padding: 0.8rem;
+        gap: 1.5rem;
+    }
+
+    .cards {
+        gap: 1rem;
+        max-width: 400px;
+    }
+
+    .card {
+        min-height: 90px;
+        max-width: 220px;
+        padding: 12px;
+    }
+
+    .cardHeader {
+        top: 0.4rem;
+        left: 0.4rem;
+    }
+
+    .cardIcon {
+        font-size: 0.9rem;
+    }
+
+    .cardLabel {
+        font-size: 0.75rem;
+    }
+
+    .cardValue {
+        font-size: 1.5rem;
+        margin-top: 0.5rem;
+    }
+
+    .chart {
+        min-height: 180px;
+        padding: 8px;
+        max-width: 450px;
+    }
+
+    .tableSection {
+        padding: 8px;
+        min-height: 360px;
+    }
+
+    .table {
+        min-height: 280px;
+    }
+
+    .dataHeader {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.8rem;
+    }
+
+    .dataControls {
+        width: 100%;
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+
+    .searchBox {
+        width: 100%;
+    }
+
+    .searchInput {
+        width: 100%;
+    }
+
+    .filterBox {
+        width: 100%;
+    }
+
+    .filterSelect {
+        width: 100%;
+    }
+
+    .cardLabel span.hideOnMobile {
+        display: none;
+    }
+}
+
+/* Small Mobile Styles */
+@media screen and (max-width: 480px) {
+    .dashboardContainer {
+        padding: 0.3rem;
+    }
+
+    .header {
+        margin: 0 0.3rem;
+    }
+
+    .title {
+        font-size: 1.1rem;
+    }
+
+    .accountButton {
+        font-size: 1rem;
+        padding: 0.2rem 0.6rem;
+    }
+
+    .statsSection {
+        padding: 0.5rem;
+        gap: 1rem;
+    }
+
+    .cards {
+        gap: 0.8rem;
+        max-width: 340px;
+    }
+
+    .card {
+        min-height: 80px;
+        max-width: 160px;
+        padding: 10px;
+    }
+
+    .cardHeader {
+        top: 0.3rem;
+        left: 0.3rem;
+    }
+
+    .cardIcon {
+        font-size: 0.8rem;
+    }
+
+    .cardLabel {
+        font-size: 0.65rem;
+    }
+
+    .cardLabel span.hideOnMobile {
+        display: none;
+    }
+
+    .cardValue {
+        font-size: 1.3rem;
+    }
+
+    .chart {
+        min-height: 160px;
+        padding: 6px;
+        max-width: 100%;
+    }
+
+    .tableSection {
+        padding: 6px;
+        min-height: 340px;
+    }
+
+    .table {
+        min-height: 260px;
+    }
+
+    .dataTitle {
+        font-size: 1rem;
+    }
 }

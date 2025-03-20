@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { TbClick } from "react-icons/tb"
-import { FaSearch } from "react-icons/fa"
+import { FaSearch, FaUser, FaSignOutAlt } from "react-icons/fa"
 import { IoIosArrowDown } from "react-icons/io"
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
 import { useAuth } from '../../context/AuthContext'
@@ -13,7 +13,7 @@ const Dashboard = () => {
   const [hoveredBarIndex, setHoveredBarIndex] = useState(null)
   const [searchText, setSearchText] = useState("")
   const [filterValue, setFilterValue] = useState("all")
-  const { logout } = useAuth()
+  const { logout, user } = useAuth()
   const navigate = useNavigate()
   const dropdownRef = useRef(null)
   const accountBtnRef = useRef(null)
@@ -88,13 +88,19 @@ const Dashboard = () => {
       <div className={styles.header}>
         <h2 className={styles.title}>Dashboard</h2>
         <div ref={accountBtnRef} className={styles.accountButton} onClick={toggleDropdown}>
-          T
+          {user ? user.charAt(0).toUpperCase() : '?'}
         </div>
         {dropdownVisible && (
           <div className={styles.dropdown} ref={dropdownRef}>
             <ul>
-              <li>Profile</li>
-              <li onClick={handleLogout}>Logout</li>
+              <li>
+                <FaUser className={styles.dropdownIcon} />
+                <span>Profile</span>
+              </li>
+              <li onClick={handleLogout}>
+                <FaSignOutAlt className={styles.dropdownIcon} />
+                <span>Logout</span>
+              </li>
             </ul>
           </div>
         )}
@@ -104,7 +110,9 @@ const Dashboard = () => {
           <div className={styles.card}>
             <div className={styles.cardHeader}>
               <TbClick className={styles.cardIcon} />
-              <span className={styles.cardLabel}>Today's Interactions</span>
+              <span className={styles.cardLabel}>
+                Today's <span className={styles.hideOnMobile}>Interactions</span>
+              </span>
             </div>
             <div className={styles.cardValueWrapper}>
               <h3 className={styles.cardValue}>300</h3>
@@ -113,7 +121,9 @@ const Dashboard = () => {
           <div className={styles.card}>
             <div className={styles.cardHeader}>
               <TbClick className={styles.cardIcon} />
-              <span className={styles.cardLabel}>This Week's Interactions</span>
+              <span className={styles.cardLabel}>
+                This Week's <span className={styles.hideOnMobile}>Interactions</span>
+              </span>
             </div>
             <div className={styles.cardValueWrapper}>
               <h3 className={styles.cardValue}>1500</h3>
@@ -122,7 +132,9 @@ const Dashboard = () => {
           <div className={styles.card}>
             <div className={styles.cardHeader}>
               <TbClick className={styles.cardIcon} />
-              <span className={styles.cardLabel}>This Month's Interactions</span>
+              <span className={styles.cardLabel}>
+                This Month's <span className={styles.hideOnMobile}>Interactions</span>
+              </span>
             </div>
             <div className={styles.cardValueWrapper}>
               <h3 className={styles.cardValue}>6200</h3>
@@ -131,7 +143,9 @@ const Dashboard = () => {
           <div className={styles.card}>
             <div className={styles.cardHeader}>
               <TbClick className={styles.cardIcon} />
-              <span className={styles.cardLabel}>This Year's Interactions</span>
+              <span className={styles.cardLabel}>
+                This Year's <span className={styles.hideOnMobile}>Interactions</span>
+              </span>
             </div>
             <div className={styles.cardValueWrapper}>
               <h3 className={styles.cardValue}>75434</h3>
