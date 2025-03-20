@@ -11,8 +11,8 @@
   },
   "dependencies": {
     "@fireworks-js/react": "^2.10.8",
-    "ag-grid-community": "^33.0.4",
-    "ag-grid-react": "^33.0.4",
+    "ag-grid-community": "^33.1.1",
+    "ag-grid-react": "^33.1.1",
     "moment": "^2.30.1",
     "moment-timezone": "^0.5.45",
     "react": "^18.3.1",

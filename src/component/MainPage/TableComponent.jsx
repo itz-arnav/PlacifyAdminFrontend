@@ -1,20 +1,57 @@
 import React, { useMemo } from 'react';
 import { AgGridReact } from 'ag-grid-react';
-import { ClientSideRowModelModule } from 'ag-grid-community';
-import 'ag-grid-community/styles/ag-grid.css';
-import 'ag-grid-community/styles/ag-theme-alpine.css';
-import '../../styles/MainPage/CustomAlpineDark.css';
+import { ClientSideRowModelModule, themeQuartz } from 'ag-grid-community';
+import "../../styles/MainPage/CustomAlpineDark.css"
+
+export const myDarkTheme = themeQuartz.withParams({
+    backgroundColor: '#101010',
+    browserColorScheme: 'dark',
+    foregroundColor: '#FFFFFF',
+    borderColor: '#363636',
+    rowHoverColor: '#404040',
+    headerFontSize: 14,
+    chromeBackgroundColor: {
+        ref: 'foregroundColor',
+        mix: 0.07,
+        onto: 'backgroundColor',
+    },
+});
 
 const NameRenderer = (params) => {
     const { data } = params;
     return (
-        <div className="name-cell">
+        <div
+            className="name-cell"
+            style={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'flex-start', // Align left horizontally
+                alignItems: 'center',           // Center vertically
+                gap: '0.25rem',
+                width: '100%',
+                height: '100%',
+                overflow: 'hidden',
+            }}
+        >
             <img
                 src={data.image}
                 alt="Icon"
                 className="name-cell__image"
+                style={{
+                    width: '40px',
+                    height: '40px',
+                    objectFit: 'cover',
+                }}
             />
-            <span className="name-cell__text">
+            <span
+                className="name-cell__text"
+                style={{
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                    maxWidth: '90%',
+                }}
+            >
                 {params.value}
             </span>
         </div>
@@ -24,23 +61,70 @@ const NameRenderer = (params) => {
 const CompanyRenderer = (params) => {
     const { data } = params;
     return (
-        <div className="company-cell">
-            <span className="company-cell__name">{params.value}</span>
-            <a
-                href={`https://${data.website}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="company-cell__link"
+        <div
+            style={{
+                display: 'flex',
+                alignItems: 'center',
+                height: '100%',
+                width: '100%',
+            }}
+        >
+            <div
+                className="company-cell"
+                style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'flex-start',
+                    gap: 0,
+                    width: '100%',
+                }}
             >
-                {data.website}
-            </a>
+                <div
+                    className="company-cell__name"
+                    style={{
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                        maxWidth: '90%',
+                        lineHeight: '1.4',
+                    }}
+                    title={data.company}
+                >
+                    {data.company}
+                </div>
+                <div
+                    className="company-cell__website"
+                    onClick={() => window.open(`https://${data.website}`, '_blank')}
+                    style={{
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                        maxWidth: '90%',
+                        lineHeight: '1.5',
+                    }}
+                >
+                    {data.website}
+                </div>
+            </div>
         </div>
     );
 };
 
 const DefaultRenderer = (params) => {
     return (
-        <div className="default-cell">
+        <div
+            className="default-cell"
+            style={{
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+                maxWidth: '100%',
+                height: '100%',
+                display: 'flex',
+                justifyContent: 'flex-start', // Align left horizontally
+                alignItems: 'center',           // Center vertically
+            }}
+        >
             {params.value}
         </div>
     );
@@ -48,13 +132,48 @@ const DefaultRenderer = (params) => {
 
 function TableComponent() {
     const columnDefs = useMemo(() => [
-        { headerName: 'Name', field: 'name', width: 200, cellRenderer: NameRenderer },
-        { headerName: 'Company', field: 'company', flex: 2, cellRenderer: CompanyRenderer },
-        { headerName: 'Closing Date', field: 'closingDate', flex: 2, cellRenderer: DefaultRenderer },
-        { headerName: 'Type', field: 'type', flex: 2, cellRenderer: DefaultRenderer },
-        { headerName: 'CTC', field: 'ctc', flex: 1, cellRenderer: DefaultRenderer },
-        { headerName: 'Batch', field: 'batch', flex: 1, cellRenderer: DefaultRenderer },
-        { headerName: 'Actions', field: 'actions', flex: 2, cellRenderer: DefaultRenderer }
+        {
+            headerName: 'Name',
+            field: 'name',
+            width: 300,
+            cellRenderer: NameRenderer
+        },
+        {
+            headerName: 'Company',
+            field: 'company',
+            flex: 3,
+            cellRenderer: CompanyRenderer
+        },
+        {
+            headerName: 'Closing Date',
+            field: 'closingDate',
+            flex: 2,
+            cellRenderer: DefaultRenderer
+        },
+        {
+            headerName: 'Type',
+            field: 'type',
+            flex: 2,
+            cellRenderer: DefaultRenderer
+        },
+        {
+            headerName: 'CTC',
+            field: 'ctc',
+            flex: 1,
+            cellRenderer: DefaultRenderer
+        },
+        {
+            headerName: 'Batch',
+            field: 'batch',
+            flex: 2,
+            cellRenderer: DefaultRenderer
+        },
+        {
+            headerName: 'Actions',
+            field: 'actions',
+            flex: 2,
+            cellRenderer: DefaultRenderer
+        }
     ], []);
 
     const rowData = useMemo(() => [
@@ -171,14 +290,25 @@ function TableComponent() {
     ], []);
 
     return (
-        <div className="ag-theme-alpine-dark table-container">
+        <div className="tableSection" style={{ height: '100%', width: '100%' }} data-ag-theme-mode="dark">
             <AgGridReact
                 modules={[ClientSideRowModelModule]}
+                theme={myDarkTheme}
                 rowModelType="clientSide"
                 columnDefs={columnDefs}
                 rowData={rowData}
-                defaultColDef={{ resizable: true, sortable: true, minWidth: 100 }}
-                rowHeight={45}
+                defaultColDef={{
+                    resizable: true,
+                    sortable: true,
+                    minWidth: 150,
+                    cellStyle: {
+                        paddingTop: '4px',
+                        paddingBottom: '4px',
+                        textAlign: 'left' // For cells without custom renderers
+                    }
+                }}
+                rowHeight={65}
+                headerHeight={65}
             />
         </div>
     );
