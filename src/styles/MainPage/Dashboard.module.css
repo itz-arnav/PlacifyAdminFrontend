@@ -579,8 +579,21 @@
     overflow-y: auto;
     scrollbar-width: none;
     -ms-overflow-style: none;
+    padding: 1rem;
 }
 
 .modalOverlay::-webkit-scrollbar {
     display: none;
+}
+
+@media (max-width: 768px) {
+    .modalOverlay {
+        padding: 0.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .modalOverlay {
+        padding: 0.5rem;
+    }
 }

@@ -259,6 +259,7 @@
     align-items: center;
     z-index: 999999;
     backdrop-filter: blur(2px);
+    padding: 1rem;
 }
 
 .modalContent {
@@ -269,7 +270,8 @@
     width: 100%;
     max-width: 500px;
     max-height: 90vh;
-    overflow-y: scroll;
+    height: auto;
+    overflow-y: auto;
     scrollbar-width: none;  /* Firefox */
     -ms-overflow-style: none;  /* IE and Edge */
 }
@@ -492,7 +494,9 @@
 
 @media (max-width: 768px) {
     .modalContent {
-        padding: 1.5rem;
+        width: 90%;
+        max-height: 90vh;
+        padding: 20px;
     }
 
     .oneSection {
@@ -510,5 +514,16 @@
 
     .uploadedFileName {
         font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .modal {
+        padding: 0.5rem;
+    }
+    
+    .modalContent {
+        width: 95%;
+        padding: 16px;
     }
 }
