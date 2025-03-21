@@ -105,8 +105,10 @@ const Dashboard = () => {
 
   const filterOptions = [
     { value: 'all', label: 'All' },
-    { value: 'active', label: 'Active' },
-    { value: 'inactive', label: 'Inactive' }
+    { value: 'job', label: 'Jobs' },
+    { value: 'internship', label: 'Internships' },
+    { value: 'contest', label: 'Contests' },
+    { value: 'hackathon', label: 'Hackathons' }
   ]
 
   const handleEdit = (item) => {
@@ -216,7 +218,7 @@ const Dashboard = () => {
               <FaSearch className={styles.searchIcon} />
               <input
                 type="text"
-                placeholder="Search..."
+                placeholder="Search by name or company..."
                 value={searchText}
                 onChange={(e) => setSearchText(e.target.value)}
                 className={styles.searchInput}
@@ -252,6 +254,8 @@ const Dashboard = () => {
         <TableComponent 
           className={styles.table} 
           onEdit={handleEdit}
+          searchText={searchText}
+          filterValue={filterValue}
         />
       </div>
       {isModalOpen && (

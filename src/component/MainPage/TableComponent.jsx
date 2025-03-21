@@ -33,6 +33,8 @@ const NameRenderer = ({ data }) => (
                 width: '32px',
                 height: '32px',
                 objectFit: 'contain',
+                backgroundColor: '#2b2b2b',
+                padding: '4px',
                 borderRadius: '4px'
             }}
         />
@@ -162,7 +164,7 @@ const ActionRenderer = (params) => {
     );
 };
 
-function TableComponent({ onEdit }) {
+function TableComponent({ onEdit, searchText, filterValue }) {
     const columnDefs = useMemo(() => [
         {
             headerName: 'Name',
@@ -276,6 +278,26 @@ function TableComponent({ onEdit }) {
         }
     }), [onEdit]);
 
+    const filteredRowData = useMemo(() => {
+        let filtered = rowData;
+        
+        // Apply type filter first
+        if (filterValue && filterValue !== 'all') {
+            filtered = filtered.filter(item => item.type === filterValue);
+        }
+        
+        // Then apply search filter
+        if (searchText) {
+            const searchLower = searchText.toLowerCase();
+            filtered = filtered.filter(item => 
+                item.name.toLowerCase().includes(searchLower) ||
+                item.company.toLowerCase().includes(searchLower)
+            );
+        }
+        
+        return filtered;
+    }, [rowData, searchText, filterValue]);
+
     return (
         <div className="tableSection" style={{ height: '100%', width: '100%' }} data-ag-theme-mode="dark">
             <AgGridReact
@@ -283,7 +305,7 @@ function TableComponent({ onEdit }) {
                 theme={myDarkTheme}
                 rowModelType="clientSide"
                 columnDefs={columnDefs}
-                rowData={rowData}
+                rowData={filteredRowData}
                 context={context}
                 defaultColDef={{
                     resizable: true,
@@ -292,7 +314,7 @@ function TableComponent({ onEdit }) {
                     cellStyle: {
                         paddingTop: '4px',
                         paddingBottom: '4px',
-                        textAlign: 'left' // For cells without custom renderers
+                        textAlign: 'left'
                     }
                 }}
                 rowHeight={65}

@@ -259,6 +259,13 @@ const Sidebar = ({
         { id: 'statistics', label: 'Statistics', icon: <FaChartBar className={css.sidebarListIcon} /> },
         { id: 'myPosts', label: 'My Posts', icon: <RiArticleFill className={css.sidebarListIcon} /> },
         { id: 'adminPanel', label: 'Admin Panel', icon: <RiAdminFill className={css.sidebarListIcon} /> },
+        { 
+            id: 'addItem', 
+            label: 'Add Item', 
+            icon: <FaPlus className={css.sidebarListIcon} />,
+            onClick: () => setIsModalOpen(true),
+            customClass: css.addItemButton
+        },
     ];
 
     const handleKeyPress = (e, itemId) => {
@@ -296,10 +303,16 @@ const Sidebar = ({
                 {sidebarItems.map(item => (
                     <li
                         key={item.id}
-                        className={`${css.sidebarTreeItem} ${selectedItem === item.id ? css.active : ""}`}
+                        className={`${css.sidebarTreeItem} ${selectedItem === item.id ? css.active : ""} ${item.customClass || ''}`}
                         role="menuitem"
                         tabIndex={0}
-                        onClick={() => setSelectedItem(item.id)}
+                        onClick={() => {
+                            if (item.onClick) {
+                                item.onClick();
+                            } else {
+                                setSelectedItem(item.id);
+                            }
+                        }}
                         onKeyPress={(e) => handleKeyPress(e, item.id)}
                         aria-current={selectedItem === item.id ? "page" : undefined}
                     >
@@ -313,21 +326,6 @@ const Sidebar = ({
                     </li>
                 ))}
             </ul>
-
-            <div className={css.addItemSection}>
-                <button 
-                    className={css.addItemButton}
-                    onClick={() => setIsModalOpen(true)}
-                >
-                    <FaPlus className={css.sidebarListIcon} />
-                    {isOpen && <span className={css.listItemLabel}>Add Item</span>}
-                    {!isOpen && (
-                        <div className={css.tooltip} role="tooltip">
-                            Add Item
-                        </div>
-                    )}
-                </button>
-            </div>
 
             <div className={css.sidebarFooter}>
                 <button 
