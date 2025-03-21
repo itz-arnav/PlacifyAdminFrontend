@@ -299,7 +299,13 @@ function TableComponent({ onEdit, searchText, filterValue }) {
     }, [rowData, searchText, filterValue]);
 
     return (
-        <div className="tableSection" style={{ height: '100%', width: '100%' }} data-ag-theme-mode="dark">
+        <div className="tableSection" style={{ 
+            height: '100%', 
+            width: '96%',
+            minHeight: '350px',
+            display: 'flex',
+            flexDirection: 'column'
+        }} data-ag-theme-mode="dark">
             <AgGridReact
                 modules={[ClientSideRowModelModule]}
                 theme={myDarkTheme}
@@ -317,6 +323,7 @@ function TableComponent({ onEdit, searchText, filterValue }) {
                         textAlign: 'left'
                     }
                 }}
+                domLayout={'autoHeight'}
                 rowHeight={65}
                 headerHeight={40}
             />
