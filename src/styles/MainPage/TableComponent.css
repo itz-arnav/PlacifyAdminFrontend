@@ -1,0 +1,84 @@
+/* Date Picker Styles */
+.react-datepicker-popper {
+    z-index: 9999 !important;
+}
+
+.react-datepicker-popper[data-placement^=bottom] {
+    right: 0 !important;
+    left: auto !important;
+    transform: translate(0, 8px) !important;
+}
+
+.react-datepicker-wrapper,
+.react-datepicker__input-container {
+    width: 100%;
+}
+
+.react-datepicker__input-container input {
+    width: 100%;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #363636;
+    background-color: #1e1e1e;
+    color: #fff;
+}
+
+.react-datepicker {
+    font-family: inherit;
+    background-color: #1e1e1e !important;
+    border: 1px solid #363636 !important;
+    border-radius: 8px;
+    color: #fff !important;
+}
+
+.react-datepicker__header {
+    background-color: #262626 !important;
+    border-bottom: 1px solid #363636 !important;
+}
+
+.react-datepicker__current-month,
+.react-datepicker__day-name,
+.react-datepicker__day {
+    color: #fff !important;
+}
+
+.react-datepicker__day:hover {
+    background-color: #4c37eb !important;
+}
+
+.react-datepicker__day--selected,
+.react-datepicker__day--keyboard-selected {
+    background-color: #5641f4 !important;
+}
+
+.react-datepicker__time-container {
+    border-left: 1px solid #363636 !important;
+}
+
+.react-datepicker__time-box {
+    background-color: #1e1e1e !important;
+}
+
+.react-datepicker__time-list-item {
+    color: #fff !important;
+}
+
+.react-datepicker__time-list-item:hover {
+    background-color: #4c37eb !important;
+}
+
+.react-datepicker__time-list-item--selected {
+    background-color: #5641f4 !important;
+} 
+
+.react-datepicker-popper[data-placement^="bottom-end"] {
+    left: auto !important;
+    right: 0 !important;
+    transform: translate(0, 4px) !important; /* slight offset below */
+  }
+  
+  /* Make sure to remove or override any other transform or placement styles, e.g.: */
+  .react-datepicker-popper[data-placement^="top"],
+  .react-datepicker-popper[data-placement^="middle"] {
+    transform: none !important;
+  }

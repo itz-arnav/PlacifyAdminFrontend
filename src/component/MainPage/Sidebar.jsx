@@ -397,6 +397,21 @@ const Sidebar = ({
                                         showTimeSelect
                                         dateFormat="Pp"
                                         customInput={<input style={{ textAlign: 'center', color: '#5641f4', fontWeight: "bold" }} />}
+                                        popperPlacement="bottom-end"
+                                        popperModifiers={[
+                                            {
+                                            name: 'flip',
+                                            enabled: false, // prevents it from flipping to top
+                                            },
+                                            {
+                                            name: 'preventOverflow',
+                                            options: { boundary: 'viewport' },
+                                            },
+                                            {
+                                            name: 'offset',
+                                            options: { offset: [0, 8] },
+                                            },
+                                        ]}
                                     />
                                 </div>
                             </div>

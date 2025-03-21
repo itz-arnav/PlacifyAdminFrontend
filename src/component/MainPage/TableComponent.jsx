@@ -3,6 +3,7 @@ import { AgGridReact } from 'ag-grid-react';
 import { ClientSideRowModelModule, themeQuartz } from 'ag-grid-community';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import "../../styles/MainPage/CustomAlpineDark.css"
+import "../../styles/MainPage/TableComponent.css"
 
 export const myDarkTheme = themeQuartz.withParams({
     backgroundColor: '#101010',
@@ -73,7 +74,7 @@ const CompanyRenderer = (params) => {
                         overflow: 'hidden',
                         textOverflow: 'ellipsis',
                         whiteSpace: 'nowrap',
-                        maxWidth: '90%',
+                        maxWidth: '100%',
                         lineHeight: '1.4',
                     }}
                     title={data.company}
@@ -87,11 +88,115 @@ const CompanyRenderer = (params) => {
                         overflow: 'hidden',
                         textOverflow: 'ellipsis',
                         whiteSpace: 'nowrap',
-                        maxWidth: '90%',
+                        maxWidth: '100%',
                         lineHeight: '1.5',
                     }}
                 >
                     {data.website}
+                </div>
+            </div>
+        </div>
+    );
+};
+
+const TypeRenderer = (params) => {
+    const getTypeClass = (type) => {
+        return `type-${type.toLowerCase()}`;
+    };
+
+    return (
+        <div
+            className="type-cell"
+            style={{
+                display: 'flex',
+                alignItems: 'center',
+                height: '100%'
+            }}
+        >
+            <button
+                className={`type-button ${getTypeClass(params.value)}`}
+                style={{
+                    width: '7rem',
+                    padding: '7px 10px',
+                    borderRadius: '0.7rem',
+                    color: '#fff',
+                    backgroundColor: '#313131',
+                    fontWeight: 600,
+                    border: '2px solid',
+                    cursor: 'default',
+                    filter: 'brightness(0.9)',
+                    transition: 'all 0.3s ease-in-out',
+                    borderColor: params.value === 'job' ? 'rgb(134, 95, 193)' :
+                               params.value === 'hackathon' ? 'rgb(69, 196, 243)' :
+                               params.value === 'internship' ? 'rgb(66, 204, 188)' :
+                               params.value === 'contest' ? 'rgb(254, 178, 48)' : '#313131'
+                }}
+            >
+                {params.value}
+            </button>
+        </div>
+    );
+};
+
+const DateRenderer = (params) => {
+    const { value } = params;
+    const date = new Date(value);
+
+    const formatDate = (date) => {
+        const options = { day: 'numeric', month: 'short', year: 'numeric' };
+        return date.toLocaleDateString('en-US', options);
+    };
+
+    const formatTime = (date) => {
+        const options = { hour: '2-digit', minute: '2-digit', hour12: true };
+        return date.toLocaleTimeString('en-US', options);
+    };
+
+    return (
+        <div
+            style={{
+                display: 'flex',
+                alignItems: 'center',
+                height: '100%',
+                width: '100%',
+            }}
+        >
+            <div
+                className="date-cell"
+                style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'flex-start',
+                    gap: 0,
+                    width: '100%',
+                }}
+            >
+                <div
+                    className="date-cell__date"
+                    style={{
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                        maxWidth: '90%',
+                        lineHeight: '1.4',
+                        fontSize: '0.95rem'
+                    }}
+                >
+                    {formatDate(date)}
+                </div>
+                <div
+                    className="date-cell__time"
+                    style={{
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                        maxWidth: '90%',
+                        lineHeight: '1.5',
+                        color: '#888',
+                        fontSize: '0.85rem'
+                    }}
+                >
+                    {formatTime(date)}
                 </div>
             </div>
         </div>
@@ -120,42 +225,57 @@ const DefaultRenderer = (params) => {
 
 const ActionRenderer = (params) => {
     const { data, context } = params;
+    const handleClick = (e) => {
+        e.stopPropagation();
+    };
+
     return (
         <div
-            className="action-cell"
+            className="action-cells"
+            onClick={handleClick}
             style={{
                 display: 'flex',
-                gap: '1rem',
+                gap: '4px',
                 alignItems: 'center',
-                height: '100%'
+                height: '100%',
+                justifyContent: 'flex-start',
+                paddingLeft: '4px'
             }}
         >
             <button
-                onClick={() => context.handleEdit(data)}
+                onClick={(e) => {
+                    e.stopPropagation();
+                    context.handleEdit(data);
+                }}
                 style={{
                     background: 'none',
                     border: 'none',
                     cursor: 'pointer',
-                    padding: '8px',
+                    padding: '4px',
                     borderRadius: '4px',
                     display: 'flex',
                     alignItems: 'center',
-                    color: '#5641f4'
+                    color: '#5641f4',
+                    pointerEvents: 'auto'
                 }}
             >
                 <FaEdit size={16} />
             </button>
             <button
-                onClick={() => context.handleDelete(data)}
+                onClick={(e) => {
+                    e.stopPropagation();
+                    context.handleDelete(data);
+                }}
                 style={{
                     background: 'none',
                     border: 'none',
                     cursor: 'pointer',
-                    padding: '8px',
+                    padding: '4px',
                     borderRadius: '4px',
                     display: 'flex',
                     alignItems: 'center',
-                    color: '#ff4d4d'
+                    color: '#ff4d4d',
+                    pointerEvents: 'auto'
                 }}
             >
                 <FaTrash size={16} />
@@ -175,20 +295,21 @@ function TableComponent({ onEdit, searchText, filterValue }) {
         {
             headerName: 'Company',
             field: 'company',
-            flex: 3,
+            width: 170,
             cellRenderer: CompanyRenderer
         },
         {
             headerName: 'Closing Date',
             field: 'closingDate',
-            flex: 2,
-            cellRenderer: DefaultRenderer
+            flex: 1.7,
+            cellRenderer: DateRenderer
         },
         {
             headerName: 'Type',
             field: 'type',
-            flex: 2,
-            cellRenderer: DefaultRenderer
+            flex: 1.5,
+            cellRenderer: TypeRenderer,
+            sortable: true
         },
         {
             headerName: 'CTC',
@@ -199,7 +320,7 @@ function TableComponent({ onEdit, searchText, filterValue }) {
         {
             headerName: 'Batch',
             field: 'batchEligible',
-            flex: 2,
+            flex: 1,
             cellRenderer: DefaultRenderer
         },
         {
@@ -207,9 +328,17 @@ function TableComponent({ onEdit, searchText, filterValue }) {
             field: 'actions',
             flex: 1,
             cellRenderer: ActionRenderer,
+            editable: false,
+            suppressMovable: true,
+            suppressCellSelection: true,
+            suppressNavigable: true,
+            suppressClickSelection: true,
+            suppressKeyboardEvent: () => true,
             cellStyle: {
                 display: 'flex',
-                justifyContent: 'center'
+                justifyContent: 'flex-start',
+                pointerEvents: 'none',
+                userSelect: 'none'
             }
         }
     ], []);
@@ -313,14 +442,19 @@ function TableComponent({ onEdit, searchText, filterValue }) {
                 columnDefs={columnDefs}
                 rowData={filteredRowData}
                 context={context}
+                suppressCellSelection={true}
+                suppressRowClickSelection={true}
+                suppressRowHoverHighlight={true}
+                suppressCellFocus={true}
                 defaultColDef={{
                     resizable: true,
                     sortable: true,
-                    minWidth: 150,
+                    minWidth: 120,
                     cellStyle: {
                         paddingTop: '4px',
                         paddingBottom: '4px',
-                        textAlign: 'left'
+                        textAlign: 'left',
+                        userSelect: 'none'
                     }
                 }}
                 domLayout={'autoHeight'}

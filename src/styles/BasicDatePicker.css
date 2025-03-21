@@ -4,6 +4,14 @@
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
+  
+  /* If you want it flush with the input’s right edge using bottom-end: */
+  .react-datepicker-popper[data-placement^="top-end"] {
+    left: auto !important;
+    right: 0 !important;
+    transform: translateX(0) !important;
+  }
+
 .react-datepicker__header {
     background-color: #2b2b2b;
     border-bottom: 1px solid #333;
@@ -189,3 +197,15 @@
 .react-datepicker__input-container input {
     color: #5641f4;
 }
+
+.react-datepicker-popper[data-placement^="bottom-end"] {
+    left: auto !important;
+    right: 0 !important;
+    transform: translate(0, 4px) !important; /* slight offset below */
+  }
+  
+  /* Make sure to remove or override any other transform or placement styles, e.g.: */
+  .react-datepicker-popper[data-placement^="top"],
+  .react-datepicker-popper[data-placement^="middle"] {
+    transform: none !important;
+  }

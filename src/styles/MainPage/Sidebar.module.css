@@ -124,7 +124,6 @@
 
 .sidebarTreeItem.active:hover {
     background-color: #4c37eb;
-    transform: translateY(-1px);
 }
 
 .tooltip {
@@ -239,7 +238,6 @@
 
 .addItemButton:hover {
     opacity: 1;
-    transform: translateY(-1px);
 }
 
 .sidebarContainer.closed .addItemButton:hover .tooltip {
