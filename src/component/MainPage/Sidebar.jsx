@@ -1,10 +1,16 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import { GoSidebarCollapse, GoSidebarExpand } from "react-icons/go";
-import { FaEnvelopeOpen, FaChartBar, FaSignOutAlt } from "react-icons/fa";
+import { FaEnvelopeOpen, FaChartBar, FaSignOutAlt, FaPlus, FaTimes } from "react-icons/fa";
 import { LuDatabaseZap } from "react-icons/lu";
 import { RiArticleFill, RiAdminFill } from "react-icons/ri";
+import { BiCloudUpload } from "react-icons/bi";
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import Select from 'react-select';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import "../../styles/BasicDatePicker.css";
+import { toast } from 'react-toastify';
 
 import css from "../../styles/MainPage/Sidebar.module.css";
 
@@ -16,6 +22,212 @@ const Sidebar = ({
 }) => {
     const { logout } = useAuth();
     const navigate = useNavigate();
+    const formRef = useRef(null);
+    const fileInputRef = useRef(null);
+
+    // Add Item Modal States
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedOption, setSelectedOption] = useState({ value: 'job', label: 'Jobs' });
+    const [ctc, setCTC] = useState('');
+    const [eligibleBatch, setEligibleBatch] = useState('');
+    const [companyName, setCompanyName] = useState('');
+    const [uploadedImage, setUploadedImage] = useState(null);
+    const [startDate, setStartDate] = useState(new Date(new Date().setDate(new Date().getDate() + 3)));
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [fileName, setFileName] = useState(null);
+
+    const options = [
+        { value: 'job', label: 'Jobs' },
+        { value: 'internship', label: 'Internships' },
+        { value: 'hackathon', label: 'Hackathons' },
+        { value: 'contest', label: 'Contests' }
+    ];
+
+    const customSelectStyles = {
+        control: (provided) => ({
+            ...provided,
+            cursor: 'pointer',
+            boxShadow: 'none',
+            backgroundColor: '#2b2b2b',
+            borderColor: '#333',
+            '&:hover': {
+                borderColor: '#5641f4'
+            }
+        }),
+        option: (provided, state) => ({
+            ...provided,
+            color: 'white',
+            backgroundColor: state.isSelected ? '#5641f4' : state.isFocused ? '#6d59f9' : '#2b2b2b',
+            cursor: 'pointer',
+        }),
+        singleValue: (provided) => ({
+            ...provided,
+            color: 'white'
+        }),
+        input: (provided) => ({
+            ...provided,
+            color: 'white'
+        }),
+        menu: (provided) => ({
+            ...provided,
+            backgroundColor: '#2b2b2b'
+        })
+    };
+
+    const handleClose = () => {
+        setIsModalOpen(false);
+        setSelectedOption({ value: 'job', label: 'Jobs' });
+        setCTC('');
+        setEligibleBatch('');
+        setUploadedImage(null);
+        setFileName(null);
+        setStartDate(new Date(new Date().setDate(new Date().getDate() + 3)));
+        setCompanyName('');
+    };
+
+    const handleImageChange = (event) => {
+        const file = event.target.files[0];
+
+        if (file) {
+            if (file.size > 500 * 1024) {
+                toast.error("File size is larger than 500kb.", {
+                    position: toast.POSITION.TOP_CENTER
+                });
+                return;
+            }
+
+            setFileName(file.name);
+
+            const reader = new FileReader();
+            reader.onloadend = (e) => {
+                const img = new Image();
+                img.src = e.target.result;
+
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    const MAX_WIDTH = 52;
+                    const MAX_HEIGHT = 52;
+
+                    let width = img.width;
+                    let height = img.height;
+
+                    if (width > height) {
+                        if (width > MAX_WIDTH) {
+                            height *= MAX_WIDTH / width;
+                            width = MAX_WIDTH;
+                        }
+                    } else {
+                        if (height > MAX_HEIGHT) {
+                            width *= MAX_HEIGHT / height;
+                            height = MAX_HEIGHT;
+                        }
+                    }
+
+                    canvas.width = width;
+                    canvas.height = height;
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    const newDataURL = canvas.toDataURL(file.type);
+                    setUploadedImage(newDataURL);
+                }
+            }
+
+            reader.readAsDataURL(file);
+        }
+    };
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        setIsSubmitting(true);
+        const token = localStorage.getItem('jwt');
+        if (!token) {
+            toast.error('Please authenticate.', {});
+            navigate('/login');
+            setIsSubmitting(false);
+            return;
+        }
+
+        const itemType = selectedOption.value;
+        const itemName = formRef.current.elements.itemName.value;
+        const itemWebsite = formRef.current.elements.itemWebsite.value;
+
+        if (!itemName || !itemWebsite || !uploadedImage) {
+            toast.error('Please fill all mandatory fields.', {});
+            setIsSubmitting(false);
+            return;
+        }
+
+        let formData;
+        if (itemType === 'job' || itemType === 'internship') {
+            if (!ctc || !eligibleBatch) {
+                toast.error('CTC and Eligible Batch are mandatory for Jobs and Internships.', {
+                    position: toast.POSITION.TOP_CENTER
+                });
+                setIsSubmitting(false);
+                return;
+            }
+            formData = {
+                name: itemName,
+                website: itemWebsite,
+                closingDate: startDate,
+                type: itemType,
+                imageIcon: uploadedImage,
+                ctc: ctc,
+                batchEligible: eligibleBatch,
+                company: companyName
+            }
+        } else {
+            formData = {
+                name: itemName,
+                website: itemWebsite,
+                closingDate: startDate,
+                type: itemType,
+                imageIcon: uploadedImage,
+                ctc: null,
+                batchEligible: null,
+                company: companyName
+            }
+        }
+
+        try {
+            const response = await fetch('https://placify-backend.vercel.app/api/posts/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(formData)
+            });
+
+            if (!response.ok && response.status === 401) {
+                toast.error('Unauthorized. Please login again.', {
+                    position: toast.POSITION.TOP_CENTER
+                });
+                navigate('/login');
+                setIsSubmitting(false);
+                return;
+            }
+
+            const responseData = await response.json();
+
+            if (response.ok) {
+                toast.success('Item added successfully!', {
+                    position: toast.POSITION.TOP_CENTER
+                });
+                handleClose();
+            } else {
+                toast.error(`Error: ${responseData.message}`, {
+                    position: toast.POSITION.TOP_CENTER
+                });
+            }
+        } catch (error) {
+            toast.error(`Error: ${error.message}`, {
+                position: toast.POSITION.TOP_CENTER
+            });
+        }
+        setIsSubmitting(false);
+    };
 
     const sidebarItems = [
         { id: 'dashboard', label: 'Dashboard', icon: <FaEnvelopeOpen className={css.sidebarListIcon} /> },
@@ -78,6 +290,21 @@ const Sidebar = ({
                 ))}
             </ul>
 
+            <div className={css.addItemSection}>
+                <button 
+                    className={css.addItemButton}
+                    onClick={() => setIsModalOpen(true)}
+                >
+                    <FaPlus className={css.sidebarListIcon} />
+                    {isOpen && <span className={css.listItemLabel}>Add Item</span>}
+                    {!isOpen && (
+                        <div className={css.tooltip} role="tooltip">
+                            Add Item
+                        </div>
+                    )}
+                </button>
+            </div>
+
             <div className={css.sidebarFooter}>
                 <button 
                     className={css.logoutButton}
@@ -96,6 +323,129 @@ const Sidebar = ({
                     )}
                 </button>
             </div>
+
+            {/* Add Item Modal */}
+            {isModalOpen && (
+                <div className={css.modal}>
+                    <div className={css.modalContent}>
+                        <button className={css.closeButton} onClick={handleClose}><FaTimes /></button>
+
+                        <form ref={formRef} className={css.formSection}>
+                            <div className={css.oneSection}>
+                                <div className={css.oneSectionItem}>
+                                    <div className={css.itemLabel}>Item Type</div>
+                                    <Select
+                                        className={css.selectOption}
+                                        value={selectedOption}
+                                        onChange={(option) => setSelectedOption(option)}
+                                        options={options}
+                                        styles={customSelectStyles}
+                                    />
+                                </div>
+                                <div className={css.oneSectionItem}>
+                                    <div className={css.itemLabel}>Item Name</div>
+                                    <input type='text' name='itemName' className={css.itemInputBox}></input>
+                                </div>
+                            </div>
+
+                            <div className={css.oneSection}>
+                                <div className={css.oneSectionItem}>
+                                    <div className={css.itemLabel}>Company Name</div>
+                                    <input
+                                        type='text'
+                                        className={css.itemInputBox}
+                                        value={companyName}
+                                        onChange={(e) => setCompanyName(e.target.value)}
+                                    />
+                                </div>
+                                <div className={css.oneSectionItem}>
+                                    <div className={css.itemLabel}>Ending Date</div>
+                                    <DatePicker
+                                        className={css.itemInputBox}
+                                        selected={startDate}
+                                        onChange={(date) => setStartDate(date)}
+                                        minDate={new Date()}
+                                        showTimeSelect
+                                        dateFormat="Pp"
+                                        customInput={<input style={{ textAlign: 'center', color: '#5641f4', fontWeight: "bold" }} />}
+                                    />
+                                </div>
+                            </div>
+
+                            <div className={css.oneSection}>
+                                <div className={css.oneSectionItem}>
+                                    <div className={css.itemLabel}>CTC</div>
+                                    <input
+                                        type='text'
+                                        className={css.itemInputBox}
+                                        value={ctc}
+                                        onChange={(e) => setCTC(e.target.value)}
+                                        disabled={selectedOption.value !== 'job' && selectedOption.value !== 'internship'}
+                                    />
+                                </div>
+                                <div className={css.oneSectionItem}>
+                                    <div className={css.itemLabel}>Eligible Batch</div>
+                                    <input
+                                        type='text'
+                                        className={css.itemInputBox}
+                                        value={eligibleBatch}
+                                        onChange={(e) => setEligibleBatch(e.target.value)}
+                                        disabled={selectedOption.value !== 'job' && selectedOption.value !== 'internship'}
+                                    />
+                                </div>
+                            </div>
+
+                            <div className={css.oneSection}>
+                                <div className={css.oneSectionItem}>
+                                    <div className={css.itemLabel}>Item Website</div>
+                                    <input type='text' name='itemWebsite' className={css.itemInputBox}></input>
+                                </div>
+                            </div>
+
+                            <div className={css.oneImageSection}>
+                                {uploadedImage ? (
+                                    <div className={css.uploadedImageContainer}>
+                                        <img src={uploadedImage} alt="Uploaded Preview" className={css.uploadedImagePreview} />
+                                        <div className={css.uploadedImageInfo}>
+                                            <span className={css.uploadedFileName}>{fileName}</span>
+                                            <button className={css.uploadedImageRemove} onClick={() => {
+                                                setUploadedImage(null);
+                                                setFileName(null);
+                                            }}>Remove</button>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <div className={css.imageButtonContainer} onClick={() => fileInputRef.current.click()}>
+                                        <input
+                                            type="file"
+                                            style={{ display: 'none' }}
+                                            ref={fileInputRef}
+                                            onChange={handleImageChange}
+                                            accept="image/*"
+                                        />
+                                        <div className={css.uploadIconContainer}>
+                                            <BiCloudUpload className={css.uploadIconImage} />
+                                            <div className={css.uploadImageText}>Upload Website Icon</div>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+
+                            <div className={css.buttonContainer}>
+                                <button
+                                    type="submit"
+                                    onClick={handleSubmit}
+                                    className={css.submitAddItemButton}
+                                    disabled={isSubmitting}
+                                >
+                                    {isSubmitting ? 'Submitting...' : 'Add Item'}
+                                    {isSubmitting && <span className={css.spinner}></span>}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
         </nav>
     );
 };

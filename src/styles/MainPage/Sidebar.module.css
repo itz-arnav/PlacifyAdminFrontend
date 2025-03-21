@@ -10,6 +10,7 @@
     align-items: center;
     user-select: none;
     transition: width 0.3s ease-in-out;
+    position: relative;
 }
 
 .sidebarContainer.closed {
@@ -204,4 +205,313 @@
 .logoutButton:focus-visible {
     outline: 2px solid #5641f4;
     outline-offset: 2px;
+}
+
+.addItemSection {
+    width: 100%;
+    padding: 0.5rem 0;
+    margin-top: auto;
+    border-top: 1px solid #ffffff09;
+}
+
+.addItemButton {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    border-radius: 0.5rem;
+    color: #fff;
+    font-size: 0.95rem;
+    padding: 0.5rem 1rem;
+    opacity: 0.85;
+    gap: 0.7rem;
+    transition: all 0.3s ease-in-out;
+    background: linear-gradient(to right, #5641f4, #4c37eb);
+    border: none;
+    cursor: pointer;
+    position: relative;
+    z-index: 9999;
+}
+
+.closed .addItemButton {
+    justify-content: center;
+    padding: 0.5rem;
+}
+
+.addItemButton:hover {
+    opacity: 1;
+    transform: translateY(-1px);
+}
+
+.sidebarContainer.closed .addItemButton:hover .tooltip {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999;
+}
+
+.modalContent {
+    background-color: #1b1b1b;
+    padding: 2rem;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    border: 1px solid #333;
+}
+
+.closeButton {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: #fff;
+    opacity: 0.8;
+    transition: opacity 0.2s ease;
+}
+
+.closeButton:hover {
+    opacity: 1;
+}
+
+.formSection {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.oneSection {
+    display: flex;
+    gap: 1rem;
+    width: 100%;
+}
+
+.oneSectionItem {
+    flex: 1;
+}
+
+.itemLabel {
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+    color: #fff;
+}
+
+.itemInputBox {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #333;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    background-color: #2b2b2b;
+    color: #fff;
+}
+
+.itemInputBox:disabled {
+    background-color: #222;
+    color: #666;
+    cursor: not-allowed;
+}
+
+.itemInputBox:focus {
+    outline: none;
+    border-color: #5641f4;
+}
+
+.selectOption > div {
+    background-color: #2b2b2b;
+    border-color: #333;
+    color: #fff;
+}
+
+.selectOption input {
+    color: #fff !important;
+}
+
+.selectOption > div:hover {
+    border-color: #5641f4;
+}
+
+.oneImageSection {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 1rem 0;
+}
+
+.uploadedImageContainer {
+    width: 80%;
+    height: 80px;
+    border: 2px dashed #333;
+    border-radius: 5px;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background-color: #2b2b2b;
+}
+
+.uploadedImagePreview {
+    width: 52px;
+    height: 52px;
+    object-fit: contain;
+    border-radius: 4px;
+    flex-shrink: 0;
+    background-color: #fff;
+    padding: 2px;
+}
+
+.uploadedImageInfo {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    min-width: 0;
+}
+
+.uploadedFileName {
+    color: #fff;
+    font-size: 0.9rem;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+}
+
+.uploadedImageRemove {
+    color: #ff4d4d;
+    cursor: pointer;
+    font-size: 0.9rem;
+    padding: 4px 8px;
+    border-radius: 4px;
+    background-color: transparent;
+    border: 1px solid #ff4d4d;
+    transition: all 0.2s ease;
+    width: fit-content;
+}
+
+.uploadedImageRemove:hover {
+    background-color: #ff4d4d;
+    color: #fff;
+}
+
+.imageButtonContainer {
+    width: 80%;
+    height: 80px;
+    border: 2px dashed #333;
+    border-radius: 5px;
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    background-color: #2b2b2b;
+    transition: border-color 0.3s ease;
+}
+
+.imageButtonContainer:hover {
+    border-color: #5641f4;
+    background-color: #333;
+}
+
+.uploadIconContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.uploadIconImage {
+    font-size: 2rem;
+    color: #5641f4;
+}
+
+.uploadImageText {
+    color: #fff;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.buttonContainer {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5rem;
+}
+
+.submitAddItemButton {
+    background: linear-gradient(45deg, #5641f4, #6d59f9);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 0.75rem 2rem;
+    cursor: pointer;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: auto;
+    transition: opacity 0.2s ease;
+}
+
+.submitAddItemButton:hover {
+    opacity: 0.9;
+}
+
+.submitAddItemButton:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top: 2px solid #fff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@media (max-width: 768px) {
+    .modalContent {
+        padding: 1.5rem;
+    }
+
+    .oneSection {
+        flex-direction: column;
+    }
+
+    .uploadedImageContainer,
+    .imageButtonContainer {
+        width: 100%;
+    }
+
+    .uploadedImageInfo {
+        max-width: calc(100% - 68px);
+    }
+
+    .uploadedFileName {
+        font-size: 0.85rem;
+    }
 }

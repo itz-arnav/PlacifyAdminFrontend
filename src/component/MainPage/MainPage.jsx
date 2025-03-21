@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import css from "../../styles/MainPage/MainPage.module.css";
 import Sidebar from './Sidebar';
@@ -10,9 +10,18 @@ import AdminPanel from './AdminPanel';
 
 const MainPage = () => {
     // State to track sidebar open/closed state
-    const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(window.innerWidth > 768);
     // State to track the selected sidebar item, defaulting to 'dashboard'
     const [selectedItem, setSelectedItem] = useState('dashboard');
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsSidebarOpen(window.innerWidth > 768);
+        };
+
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     // Toggle function for sidebar state
     const toggleSidebar = () => {

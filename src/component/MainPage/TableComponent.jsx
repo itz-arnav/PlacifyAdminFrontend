@@ -27,7 +27,7 @@ const NameRenderer = (params) => {
                 flexDirection: 'row',
                 justifyContent: 'flex-start', // Align left horizontally
                 alignItems: 'center',           // Center vertically
-                gap: '0.25rem',
+                gap: '0.75rem',
                 width: '100%',
                 height: '100%',
                 overflow: 'hidden',
@@ -38,9 +38,12 @@ const NameRenderer = (params) => {
                 alt="Icon"
                 className="name-cell__image"
                 style={{
-                    width: '40px',
-                    height: '40px',
-                    objectFit: 'cover',
+                    width: '32px',
+                    height: '32px',
+                    objectFit: 'contain',
+                    backgroundColor: '#fff',
+                    padding: '2px',
+                    borderRadius: '4px'
                 }}
             />
             <span
@@ -308,7 +311,7 @@ function TableComponent() {
                     }
                 }}
                 rowHeight={65}
-                headerHeight={65}
+                headerHeight={40}
             />
         </div>
     );

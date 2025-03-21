@@ -17,6 +17,9 @@ const Dashboard = () => {
   const navigate = useNavigate()
   const dropdownRef = useRef(null)
   const accountBtnRef = useRef(null)
+  const [isFilterOpen, setIsFilterOpen] = useState(false)
+  const filterRef = useRef(null)
+
   const chartData = [
     { name: 'Wed', value: 210 },
     { name: 'Thu', value: 260 },
@@ -26,9 +29,11 @@ const Dashboard = () => {
     { name: 'Mon', value: 280 },
     { name: 'Tue', value: 180 }
   ]
+
   const toggleDropdown = () => {
     setDropdownVisible(prev => !prev)
   }
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -38,17 +43,26 @@ const Dashboard = () => {
       ) {
         setDropdownVisible(false)
       }
+      if (
+        filterRef.current &&
+        !filterRef.current.contains(event.target)
+      ) {
+        setIsFilterOpen(false)
+      }
     }
     document.addEventListener("mousedown", handleClickOutside)
     return () => document.removeEventListener("mousedown", handleClickOutside)
   }, [])
+
   const DEFAULT_BAR_COLOR = "#5641f4"
   const HOVER_BAR_COLOR = "#6d59f9"
+
   const CustomBar = (props) => {
     const { x, y, width, height, index, fill } = props
     const fillColor = index === hoveredBarIndex ? HOVER_BAR_COLOR : fill
     return <rect x={x} y={y} width={width} height={height} fill={fillColor} />
   }
+
   const CustomTooltip = ({ active, payload, coordinate }) => {
     if (active && payload && payload.length) {
       return (
@@ -71,6 +85,7 @@ const Dashboard = () => {
     }
     return null
   }
+
   const renderXAxisTick = ({ x, y, payload }) => {
     const fill = payload.value === "Tue" ? "#fff" : "#888"
     return (
@@ -79,16 +94,26 @@ const Dashboard = () => {
       </text>
     )
   }
+
   const handleLogout = () => {
     logout()
     navigate("/login")
   }
+
+  const filterOptions = [
+    { value: 'all', label: 'All' },
+    { value: 'active', label: 'Active' },
+    { value: 'inactive', label: 'Inactive' }
+  ]
+
   return (
     <div className={styles.dashboardContainer}>
       <div className={styles.header}>
         <h2 className={styles.title}>Dashboard</h2>
-        <div ref={accountBtnRef} className={styles.accountButton} onClick={toggleDropdown}>
-          {user ? user.charAt(0).toUpperCase() : '?'}
+        <div className={styles.headerActions}>
+          <div ref={accountBtnRef} className={styles.accountButton} onClick={toggleDropdown}>
+            {user ? user.charAt(0).toUpperCase() : '?'}
+          </div>
         </div>
         {dropdownVisible && (
           <div className={styles.dropdown} ref={dropdownRef}>
@@ -105,6 +130,7 @@ const Dashboard = () => {
           </div>
         )}
       </div>
+
       <div className={styles.statsSection}>
         <div className={styles.cards}>
           <div className={styles.card}>
@@ -183,17 +209,30 @@ const Dashboard = () => {
                 className={styles.searchInput}
               />
             </div>
-            <div className={styles.filterBox}>
-              <select
-                value={filterValue}
-                onChange={(e) => setFilterValue(e.target.value)}
-                className={styles.filterSelect}
+            <div className={styles.filterBox} ref={filterRef}>
+              <div 
+                className={styles.filterButton}
+                onClick={() => setIsFilterOpen(!isFilterOpen)}
               >
-                <option value="all">All</option>
-                <option value="active">Active</option>
-                <option value="inactive">Inactive</option>
-              </select>
-              <IoIosArrowDown className={styles.filterIcon} />
+                <span>{filterOptions.find(opt => opt.value === filterValue)?.label}</span>
+                <IoIosArrowDown className={styles.filterIcon} />
+              </div>
+              {isFilterOpen && (
+                <div className={styles.filterDropdown}>
+                  {filterOptions.map((option) => (
+                    <div
+                      key={option.value}
+                      className={`${styles.filterOption} ${filterValue === option.value ? styles.selected : ''}`}
+                      onClick={() => {
+                        setFilterValue(option.value)
+                        setIsFilterOpen(false)
+                      }}
+                    >
+                      {option.label}
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>
