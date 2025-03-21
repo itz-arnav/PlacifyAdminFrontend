@@ -18,30 +18,44 @@ const Sidebar = ({
     isOpen,
     selectedItem,
     setSelectedItem,
-    toggleSidebar
+    toggleSidebar,
+    isEditing = false,
+    editData = null,
+    onClose
 }) => {
     const { logout } = useAuth();
     const navigate = useNavigate();
     const formRef = useRef(null);
     const fileInputRef = useRef(null);
 
+    const options = [
+        { value: 'job', label: 'Job' },
+        { value: 'internship', label: 'Internship' },
+        { value: 'hackathon', label: 'Hackathon' },
+        { value: 'contest', label: 'Contest' }
+    ];
+
     // Add Item Modal States
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [selectedOption, setSelectedOption] = useState({ value: 'job', label: 'Jobs' });
-    const [ctc, setCTC] = useState('');
-    const [eligibleBatch, setEligibleBatch] = useState('');
-    const [companyName, setCompanyName] = useState('');
-    const [uploadedImage, setUploadedImage] = useState(null);
-    const [startDate, setStartDate] = useState(new Date(new Date().setDate(new Date().getDate() + 3)));
+    const [isModalOpen, setIsModalOpen] = useState(isEditing);
+    const [selectedOption, setSelectedOption] = useState(() => {
+        if (editData) {
+            const type = editData.type.toLowerCase();
+            const option = options.find(opt => opt.value === type);
+            return option || options[0];
+        }
+        return options[0];
+    });
+    const [ctc, setCTC] = useState(editData?.ctc || '');
+    const [eligibleBatch, setEligibleBatch] = useState(editData?.batchEligible || '');
+    const [companyName, setCompanyName] = useState(editData?.company || '');
+    const [uploadedImage, setUploadedImage] = useState(editData?.imageIcon || null);
+    const [startDate, setStartDate] = useState(
+        editData 
+            ? new Date(editData.closingDate) 
+            : new Date(new Date().setDate(new Date().getDate() + 3))
+    );
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [fileName, setFileName] = useState(null);
-
-    const options = [
-        { value: 'job', label: 'Jobs' },
-        { value: 'internship', label: 'Internships' },
-        { value: 'hackathon', label: 'Hackathons' },
-        { value: 'contest', label: 'Contests' }
-    ];
 
     const customSelectStyles = {
         control: (provided) => ({
@@ -175,7 +189,8 @@ const Sidebar = ({
                 imageIcon: uploadedImage,
                 ctc: ctc,
                 batchEligible: eligibleBatch,
-                company: companyName
+                company: companyName,
+                id: editData?.id
             }
         } else {
             formData = {
@@ -186,13 +201,18 @@ const Sidebar = ({
                 imageIcon: uploadedImage,
                 ctc: null,
                 batchEligible: null,
-                company: companyName
+                company: companyName,
+                id: editData?.id
             }
         }
 
+        const url = isEditing 
+            ? `https://placify-backend.vercel.app/api/posts/${editData.id}`
+            : 'https://placify-backend.vercel.app/api/posts/';
+
         try {
-            const response = await fetch('https://placify-backend.vercel.app/api/posts/', {
-                method: 'POST',
+            const response = await fetch(url, {
+                method: isEditing ? 'PUT' : 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
@@ -212,10 +232,14 @@ const Sidebar = ({
             const responseData = await response.json();
 
             if (response.ok) {
-                toast.success('Item added successfully!', {
+                toast.success(`Item ${isEditing ? 'updated' : 'added'} successfully!`, {
                     position: toast.POSITION.TOP_CENTER
                 });
-                handleClose();
+                if (isEditing && onClose) {
+                    onClose();
+                } else {
+                    handleClose();
+                }
             } else {
                 toast.error(`Error: ${responseData.message}`, {
                     position: toast.POSITION.TOP_CENTER
@@ -324,11 +348,13 @@ const Sidebar = ({
                 </button>
             </div>
 
-            {/* Add Item Modal */}
+            {/* Add/Edit Item Modal */}
             {isModalOpen && (
                 <div className={css.modal}>
                     <div className={css.modalContent}>
-                        <button className={css.closeButton} onClick={handleClose}><FaTimes /></button>
+                        <button className={css.closeButton} onClick={isEditing ? onClose : handleClose}>
+                            <FaTimes />
+                        </button>
 
                         <form ref={formRef} className={css.formSection}>
                             <div className={css.oneSection}>
@@ -344,7 +370,12 @@ const Sidebar = ({
                                 </div>
                                 <div className={css.oneSectionItem}>
                                     <div className={css.itemLabel}>Item Name</div>
-                                    <input type='text' name='itemName' className={css.itemInputBox}></input>
+                                    <input 
+                                        type='text' 
+                                        name='itemName' 
+                                        className={css.itemInputBox}
+                                        defaultValue={editData?.name || ''}
+                                    />
                                 </div>
                             </div>
 
@@ -381,6 +412,7 @@ const Sidebar = ({
                                         value={ctc}
                                         onChange={(e) => setCTC(e.target.value)}
                                         disabled={selectedOption.value !== 'job' && selectedOption.value !== 'internship'}
+                                        placeholder={selectedOption.value === 'job' || selectedOption.value === 'internship' ? 'Enter CTC' : 'Not Applicable'}
                                     />
                                 </div>
                                 <div className={css.oneSectionItem}>
@@ -391,6 +423,7 @@ const Sidebar = ({
                                         value={eligibleBatch}
                                         onChange={(e) => setEligibleBatch(e.target.value)}
                                         disabled={selectedOption.value !== 'job' && selectedOption.value !== 'internship'}
+                                        placeholder={selectedOption.value === 'job' || selectedOption.value === 'internship' ? 'Enter Batch Year' : 'Not Applicable'}
                                     />
                                 </div>
                             </div>
@@ -398,7 +431,12 @@ const Sidebar = ({
                             <div className={css.oneSection}>
                                 <div className={css.oneSectionItem}>
                                     <div className={css.itemLabel}>Item Website</div>
-                                    <input type='text' name='itemWebsite' className={css.itemInputBox}></input>
+                                    <input 
+                                        type='text' 
+                                        name='itemWebsite' 
+                                        className={css.itemInputBox}
+                                        defaultValue={editData?.website || ''}
+                                    />
                                 </div>
                             </div>
 
@@ -407,11 +445,17 @@ const Sidebar = ({
                                     <div className={css.uploadedImageContainer}>
                                         <img src={uploadedImage} alt="Uploaded Preview" className={css.uploadedImagePreview} />
                                         <div className={css.uploadedImageInfo}>
-                                            <span className={css.uploadedFileName}>{fileName}</span>
-                                            <button className={css.uploadedImageRemove} onClick={() => {
-                                                setUploadedImage(null);
-                                                setFileName(null);
-                                            }}>Remove</button>
+                                            <button 
+                                                type="button"
+                                                className={css.uploadedImageRemove} 
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    setUploadedImage(null);
+                                                    setFileName(null);
+                                                }}
+                                            >
+                                                Remove
+                                            </button>
                                         </div>
                                     </div>
                                 ) : (
@@ -438,7 +482,7 @@ const Sidebar = ({
                                     className={css.submitAddItemButton}
                                     disabled={isSubmitting}
                                 >
-                                    {isSubmitting ? 'Submitting...' : 'Add Item'}
+                                    {isSubmitting ? 'Submitting...' : isEditing ? 'Update Item' : 'Add Item'}
                                     {isSubmitting && <span className={css.spinner}></span>}
                                 </button>
                             </div>

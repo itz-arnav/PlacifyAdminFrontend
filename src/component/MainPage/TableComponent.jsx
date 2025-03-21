@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import { ClientSideRowModelModule, themeQuartz } from 'ag-grid-community';
+import { FaEdit, FaTrash } from 'react-icons/fa';
 import "../../styles/MainPage/CustomAlpineDark.css"
 
 export const myDarkTheme = themeQuartz.withParams({
@@ -17,49 +18,31 @@ export const myDarkTheme = themeQuartz.withParams({
     },
 });
 
-const NameRenderer = (params) => {
-    const { data } = params;
-    return (
-        <div
-            className="name-cell"
+const NameRenderer = ({ data }) => (
+    <div style={{ 
+        display: 'flex', 
+        alignItems: 'center', 
+        gap: '12px',
+        height: '100%',
+        width: '100%'
+    }}>
+        <img
+            src={data.imageIcon}
+            alt=""
             style={{
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'flex-start', // Align left horizontally
-                alignItems: 'center',           // Center vertically
-                gap: '0.75rem',
-                width: '100%',
-                height: '100%',
-                overflow: 'hidden',
+                width: '32px',
+                height: '32px',
+                objectFit: 'contain',
+                borderRadius: '4px'
             }}
-        >
-            <img
-                src={data.image}
-                alt="Icon"
-                className="name-cell__image"
-                style={{
-                    width: '32px',
-                    height: '32px',
-                    objectFit: 'contain',
-                    backgroundColor: '#fff',
-                    padding: '2px',
-                    borderRadius: '4px'
-                }}
-            />
-            <span
-                className="name-cell__text"
-                style={{
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                    whiteSpace: 'nowrap',
-                    maxWidth: '90%',
-                }}
-            >
-                {params.value}
-            </span>
-        </div>
-    );
-};
+        />
+        <span style={{ 
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap'
+        }}>{data.name}</span>
+    </div>
+);
 
 const CompanyRenderer = (params) => {
     const { data } = params;
@@ -133,7 +116,53 @@ const DefaultRenderer = (params) => {
     );
 };
 
-function TableComponent() {
+const ActionRenderer = (params) => {
+    const { data, context } = params;
+    return (
+        <div
+            className="action-cell"
+            style={{
+                display: 'flex',
+                gap: '1rem',
+                alignItems: 'center',
+                height: '100%'
+            }}
+        >
+            <button
+                onClick={() => context.handleEdit(data)}
+                style={{
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    padding: '8px',
+                    borderRadius: '4px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    color: '#5641f4'
+                }}
+            >
+                <FaEdit size={16} />
+            </button>
+            <button
+                onClick={() => context.handleDelete(data)}
+                style={{
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    padding: '8px',
+                    borderRadius: '4px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    color: '#ff4d4d'
+                }}
+            >
+                <FaTrash size={16} />
+            </button>
+        </div>
+    );
+};
+
+function TableComponent({ onEdit }) {
     const columnDefs = useMemo(() => [
         {
             headerName: 'Name',
@@ -167,130 +196,85 @@ function TableComponent() {
         },
         {
             headerName: 'Batch',
-            field: 'batch',
+            field: 'batchEligible',
             flex: 2,
             cellRenderer: DefaultRenderer
         },
         {
             headerName: 'Actions',
             field: 'actions',
-            flex: 2,
-            cellRenderer: DefaultRenderer
+            flex: 1,
+            cellRenderer: ActionRenderer,
+            cellStyle: {
+                display: 'flex',
+                justifyContent: 'center'
+            }
         }
     ], []);
 
     const rowData = useMemo(() => [
         {
-            name: 'Software Developer 1',
-            company: 'Google',
-            website: 'google.com',
-            closingDate: '2025-03-01',
-            type: 'Full-time',
-            image: '/image1.png',
-            ctc: '30 LPA',
-            batch: '2023-2025',
-            actions: 'Apply'
+            id: 1,
+            name: "Software Developer",
+            type: "job",
+            company: "Google",
+            website: "google.com/careers",
+            imageIcon: "https://www.google.com/favicon.ico",
+            ctc: "30 LPA",
+            batchEligible: "2023-2024",
+            closingDate: "2024-03-01T12:00:00Z"
         },
         {
-            name: 'Software Developer 2 grhffwrtrhyf4tgdvwrfdb',
-            company: 'Amazon',
-            website: 'amazon.com',
-            closingDate: '2025-04-10',
-            type: 'Internship',
-            image: '/image2.png',
-            ctc: '25 LPA',
-            batch: '2023-2025',
-            actions: 'Apply'
+            id: 2,
+            name: "Summer Internship",
+            type: "internship",
+            company: "Microsoft",
+            website: "microsoft.com/careers",
+            imageIcon: "https://www.microsoft.com/favicon.ico",
+            ctc: "2 LPA",
+            batchEligible: "2024-2025",
+            closingDate: "2024-04-15T12:00:00Z"
         },
         {
-            name: 'Software Developer 3',
-            company: 'Microsoft',
-            website: 'microsoft.com',
-            closingDate: '2025-05-20',
-            type: 'Full-time',
-            image: '/image1.png',
-            ctc: '32 LPA',
-            batch: '2023-2025',
-            actions: 'View'
+            id: 3,
+            name: "Code Quest Challenge",
+            type: "hackathon",
+            company: "Amazon",
+            website: "amazon.com/hackathon",
+            imageIcon: "https://www.amazon.com/favicon.ico",
+            closingDate: "2024-03-20T12:00:00Z"
         },
         {
-            name: 'Software Developer 4',
-            company: 'Apple',
-            website: 'apple.com',
-            closingDate: '2025-06-15',
-            type: 'Contract',
-            image: '/image1.png',
-            ctc: '35 LPA',
-            batch: '2023-2025',
-            actions: 'Apply'
+            id: 4,
+            name: "AI Competition",
+            type: "contest",
+            company: "Meta",
+            website: "meta.com/contest",
+            imageIcon: "https://png.pngtree.com/png-clipart/20190520/original/pngtree-facebook-social-media-icon-design-template-vector-png-image_3654755.jpg",
+            closingDate: "2024-05-01T12:00:00Z"
         },
         {
-            name: 'Software Developer 5',
-            company: 'Meta',
-            website: 'meta.com',
-            closingDate: '2025-07-01',
-            type: 'Internship',
-            image: '/image2.png',
-            ctc: '20 LPA',
-            batch: '2023-2025',
-            actions: 'Apply'
-        },
-        {
-            name: 'Software Developer 6',
-            company: 'Netflix',
-            website: 'dribbble.com/shots/22815413-Storeshop-Dashboard',
-            closingDate: '2025-07-30',
-            type: 'Full-time',
-            image: '/image1.png',
-            ctc: '40 LPA',
-            batch: '2023-2025',
-            actions: 'View'
-        },
-        {
-            name: 'Software Developer 7',
-            company: 'Tesla',
-            website: 'tesla.com',
-            closingDate: '2025-08-20',
-            type: 'Full-time',
-            image: '/image2.png',
-            ctc: '42 LPA',
-            batch: '2023-2025',
-            actions: 'Apply'
-        },
-        {
-            name: 'Software Developer 8',
-            company: 'IBM',
-            website: 'ibm.com',
-            closingDate: '2025-09-05',
-            type: 'Internship',
-            image: '/image1.png',
-            ctc: '22 LPA',
-            batch: '2023-2025',
-            actions: 'Apply'
-        },
-        {
-            name: 'Software Developer 9',
-            company: 'Adobe',
-            website: 'adobe.com',
-            closingDate: '2025-10-10',
-            type: 'Full-time',
-            image: '/image2.png',
-            ctc: '28 LPA',
-            batch: '2023-2025',
-            actions: 'View'
-        },
-        {
-            name: 'Software Developer 10',
-            company: 'Oracle',
-            website: 'oracle.com',
-            closingDate: '2025-11-15',
-            type: 'Contract',
-            image: '/image1.png',
-            ctc: '31 LPA',
-            batch: '2023-2025',
-            actions: 'Apply'
+            id: 5,
+            name: "Backend Developer",
+            type: "job",
+            company: "Netflix",
+            website: "netflix.com/careers",
+            imageIcon: "https://www.netflix.com/favicon.ico",
+            ctc: "45 LPA",
+            batchEligible: "2023-2024",
+            closingDate: "2024-03-30T12:00:00Z"
         }
     ], []);
+
+    const context = useMemo(() => ({
+        handleEdit: (data) => {
+            onEdit(data);
+        },
+        handleDelete: (data) => {
+            // TODO: Implement delete functionality
+            console.log('Delete:', data);
+        }
+    }), [onEdit]);
 
     return (
         <div className="tableSection" style={{ height: '100%', width: '100%' }} data-ag-theme-mode="dark">
@@ -300,6 +284,7 @@ function TableComponent() {
                 rowModelType="clientSide"
                 columnDefs={columnDefs}
                 rowData={rowData}
+                context={context}
                 defaultColDef={{
                     resizable: true,
                     sortable: true,

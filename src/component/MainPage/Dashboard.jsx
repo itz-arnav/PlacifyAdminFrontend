@@ -7,12 +7,15 @@ import { useAuth } from '../../context/AuthContext'
 import { useNavigate } from 'react-router-dom'
 import TableComponent from './TableComponent'
 import styles from "../../styles/MainPage/Dashboard.module.css"
+import Sidebar from './Sidebar'
 
 const Dashboard = () => {
   const [dropdownVisible, setDropdownVisible] = useState(false)
   const [hoveredBarIndex, setHoveredBarIndex] = useState(null)
   const [searchText, setSearchText] = useState("")
   const [filterValue, setFilterValue] = useState("all")
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [editingItem, setEditingItem] = useState(null)
   const { logout, user } = useAuth()
   const navigate = useNavigate()
   const dropdownRef = useRef(null)
@@ -105,6 +108,16 @@ const Dashboard = () => {
     { value: 'active', label: 'Active' },
     { value: 'inactive', label: 'Inactive' }
   ]
+
+  const handleEdit = (item) => {
+    setEditingItem(item);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setEditingItem(null);
+  };
 
   return (
     <div className={styles.dashboardContainer}>
@@ -236,8 +249,24 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
-        <TableComponent className={styles.table} />
+        <TableComponent 
+          className={styles.table} 
+          onEdit={handleEdit}
+        />
       </div>
+      {isModalOpen && (
+        <div className={styles.modalOverlay}>
+          <Sidebar
+            isOpen={true}
+            selectedItem="dashboard"
+            setSelectedItem={() => {}}
+            toggleSidebar={() => {}}
+            isEditing={true}
+            editData={editingItem}
+            onClose={handleCloseModal}
+          />
+        </div>
+      )}
     </div>
   )
 }

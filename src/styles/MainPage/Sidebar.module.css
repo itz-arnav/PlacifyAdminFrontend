@@ -253,11 +253,12 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.35);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 99999;
+    backdrop-filter: blur(2px);
 }
 
 .modalContent {
@@ -355,15 +356,18 @@
 }
 
 .uploadedImageContainer {
-    width: 80%;
-    height: 80px;
-    border: 2px dashed #333;
-    border-radius: 5px;
-    padding: 1rem;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 1rem;
-    background-color: #2b2b2b;
+    justify-content: center;
+    gap: 16px;
+    padding: 12px;
+    border: 2px dashed #363636;
+    border-radius: 8px;
+    width: 100%;
+    height: 150px;
+    transition: all 0.2s ease;
+    background: transparent;
 }
 
 .uploadedImagePreview {
@@ -371,74 +375,62 @@
     height: 52px;
     object-fit: contain;
     border-radius: 4px;
-    flex-shrink: 0;
-    background-color: #fff;
-    padding: 2px;
+    background: transparent;
 }
 
 .uploadedImageInfo {
-    flex: 1;
     display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    min-width: 0;
+    align-items: center;
+    justify-content: center;
 }
 
 .uploadedFileName {
-    color: #fff;
     font-size: 0.9rem;
-    text-align: left;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    width: 100%;
+    color: #888;
 }
 
 .uploadedImageRemove {
-    color: #ff4d4d;
+    background: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 4px 12px;
+    border-radius: 4px;
     cursor: pointer;
     font-size: 0.9rem;
-    padding: 4px 8px;
-    border-radius: 4px;
-    background-color: transparent;
-    border: 1px solid #ff4d4d;
-    transition: all 0.2s ease;
-    width: fit-content;
+    transition: background 0.2s ease;
 }
 
 .uploadedImageRemove:hover {
-    background-color: #ff4d4d;
-    color: #fff;
+    background: #ff3333;
 }
 
 .imageButtonContainer {
-    width: 80%;
-    height: 80px;
-    border: 2px dashed #333;
-    border-radius: 5px;
-    padding: 1rem;
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%;
+    height: 150px;
+    border: 2px dashed #333;
+    border-radius: 8px;
     cursor: pointer;
-    background-color: #2b2b2b;
-    transition: border-color 0.3s ease;
+    background-color: #1b1b1b;
+    transition: all 0.2s;
 }
 
 .imageButtonContainer:hover {
     border-color: #5641f4;
-    background-color: #333;
+    background-color: #242424;
 }
 
 .uploadIconContainer {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.75rem;
 }
 
 .uploadIconImage {
-    font-size: 2rem;
+    font-size: 2.5rem;
     color: #5641f4;
 }
 
